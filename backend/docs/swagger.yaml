@@ -1,0 +1,1075 @@
+basePath: /api/v1
+definitions:
+  controllers.DeceasedReceive:
+    properties:
+      coolroomID:
+        type: integer
+      deathtime:
+        type: string
+      patientID:
+        type: integer
+      relativeID:
+        type: integer
+      userID:
+        type: integer
+    type: object
+  ent.Coolroom:
+    properties:
+      coolroom_capacity:
+        description: CoolroomCapacity holds the value of the "coolroom_capacity" field.
+        type: integer
+      coolroom_name:
+        description: CoolroomName holds the value of the "coolroom_name" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.CoolroomEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the CoolroomQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.CoolroomEdges:
+    properties:
+      coolroomtype:
+        $ref: '#/definitions/ent.CoolroomType'
+        description: Coolroomtype holds the value of the coolroomtype edge.
+        type: object
+      deceasedreceives:
+        description: Deceasedreceives holds the value of the deceasedreceives edge.
+        items:
+          $ref: '#/definitions/ent.DeceasedReceive'
+        type: array
+    type: object
+  ent.CoolroomType:
+    properties:
+      coolroomtype_name:
+        description: CoolroomtypeName holds the value of the "coolroomtype_name" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.CoolroomTypeEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the CoolroomTypeQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.CoolroomTypeEdges:
+    properties:
+      coolrooms:
+        description: Coolrooms holds the value of the coolrooms edge.
+        items:
+          $ref: '#/definitions/ent.Coolroom'
+        type: array
+    type: object
+  ent.DeceasedReceive:
+    properties:
+      death_time:
+        description: DeathTime holds the value of the "death_time" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.DeceasedReceiveEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the DeceasedReceiveQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.DeceasedReceiveEdges:
+    properties:
+      coolroom:
+        $ref: '#/definitions/ent.Coolroom'
+        description: Coolroom holds the value of the coolroom edge.
+        type: object
+      doctor:
+        $ref: '#/definitions/ent.User'
+        description: Doctor holds the value of the doctor edge.
+        type: object
+      patient:
+        $ref: '#/definitions/ent.Patient'
+        description: Patient holds the value of the patient edge.
+        type: object
+      relative:
+        $ref: '#/definitions/ent.Relative'
+        description: Relative holds the value of the relative edge.
+        type: object
+    type: object
+  ent.Patient:
+    properties:
+      edges:
+        $ref: '#/definitions/ent.PatientEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the PatientQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+      patient_age:
+        description: PatientAge holds the value of the "patient_age" field.
+        type: integer
+      patient_name:
+        description: PatientName holds the value of the "patient_name" field.
+        type: string
+    type: object
+  ent.PatientEdges:
+    properties:
+      deceasedreceives:
+        description: Deceasedreceives holds the value of the deceasedreceives edge.
+        items:
+          $ref: '#/definitions/ent.DeceasedReceive'
+        type: array
+    type: object
+  ent.Relative:
+    properties:
+      edges:
+        $ref: '#/definitions/ent.RelativeEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the RelativeQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+      relative_name:
+        description: RelativeName holds the value of the "relative_name" field.
+        type: string
+    type: object
+  ent.RelativeEdges:
+    properties:
+      deceasedreceives:
+        description: Deceasedreceives holds the value of the deceasedreceives edge.
+        items:
+          $ref: '#/definitions/ent.DeceasedReceive'
+        type: array
+    type: object
+  ent.User:
+    properties:
+      edges:
+        $ref: '#/definitions/ent.UserEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the UserQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+      user_name:
+        description: UserName holds the value of the "user_name" field.
+        type: string
+      useremail:
+        description: Useremail holds the value of the "useremail" field.
+        type: string
+    type: object
+  ent.UserEdges:
+    properties:
+      deceasedreceives:
+        description: Deceasedreceives holds the value of the deceasedreceives edge.
+        items:
+          $ref: '#/definitions/ent.DeceasedReceive'
+        type: array
+    type: object
+  gin.H:
+    additionalProperties: true
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server for SUT SE 2563
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: SUT SA Example API
+  version: "1.0"
+paths:
+  /coolrooms:
+    get:
+      description: list coolroom entities
+      operationId: list-coolroom
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Coolroom'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List coolroom entities
+    post:
+      consumes:
+      - application/json
+      description: Create coolroom
+      operationId: create-coolroom
+      parameters:
+      - description: Coolroom entity
+        in: body
+        name: coolroom
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Coolroom'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Coolroom'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create coolroom
+  /coolrooms/{id}:
+    delete:
+      description: get coolroom by ID
+      operationId: delete-coolroom
+      parameters:
+      - description: Coolroom ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a coolroom entity by ID
+    get:
+      description: get coolroom by ID
+      operationId: get-coolroom
+      parameters:
+      - description: Coolroom ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Coolroom'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a coolroom entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update coolroom by ID
+      operationId: update-coolroom
+      parameters:
+      - description: Coolroom ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Coolroom entity
+        in: body
+        name: coolroom
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Coolroom'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Coolroom'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a coolroom entity by ID
+  /coolroomtypes:
+    get:
+      description: list coolroomtype entities
+      operationId: list-coolroomtype
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.CoolroomType'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List coolroomtype entities
+    post:
+      consumes:
+      - application/json
+      description: Create coolroomtype
+      operationId: create-coolroomtype
+      parameters:
+      - description: CoolroomType entity
+        in: body
+        name: coolroomtype
+        required: true
+        schema:
+          $ref: '#/definitions/ent.CoolroomType'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.CoolroomType'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create coolroomtype
+  /coolroomtypes/{id}:
+    delete:
+      description: get coolroomtype by ID
+      operationId: delete-coolroomtype
+      parameters:
+      - description: CoolroomType ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a coolroomtype entity by ID
+    get:
+      description: get coolroomtype by ID
+      operationId: get-coolroomtype
+      parameters:
+      - description: CoolroomType ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - json./main
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.CoolroomType'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a coolroomtype entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update coolroomtype by ID
+      operationId: update-coolroomtype
+      parameters:
+      - description: CoolroomType ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: CoolroomType entity
+        in: body
+        name: coolroomtype
+        required: true
+        schema:
+          $ref: '#/definitions/ent.CoolroomType'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.CoolroomType'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a coolroomtype entity by ID
+  /deceasedreceives:
+    get:
+      description: list deceasedreceive entities
+      operationId: list-deceasedreceive
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.DeceasedReceive'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List deceasedreceive entities
+    post:
+      consumes:
+      - application/json
+      description: Create deceasedreceive
+      operationId: create-deceasedreceive
+      parameters:
+      - description: DeceasedReceive entity
+        in: body
+        name: deceasedreceive
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.DeceasedReceive'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.DeceasedReceive'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create deceasedreceive
+  /deceasedreceives/{id}:
+    delete:
+      description: get deceasedreceive by ID
+      operationId: delete-deceasedreceive
+      parameters:
+      - description: DeceasedReceive ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a deceasedreceive entity by ID
+  /patients:
+    get:
+      description: list patient entities
+      operationId: list-patient
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Patient'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List patient entities
+    post:
+      consumes:
+      - application/json
+      description: Create patient
+      operationId: create-patient
+      parameters:
+      - description: Patient entity
+        in: body
+        name: patient
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Patient'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Patient'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create patient
+  /patients/{id}:
+    delete:
+      description: get patient by ID
+      operationId: delete-patient
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a patient entity by ID
+    get:
+      description: get patient by ID
+      operationId: get-patient
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Patient'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a patient entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update patient by ID
+      operationId: update-patient
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Patient entity
+        in: body
+        name: patient
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Patient'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Patient'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a patient entity by ID
+  /relatives:
+    get:
+      description: list relative entities
+      operationId: list-relative
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Relative'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List relative entities
+    post:
+      consumes:
+      - application/json
+      description: Create relative
+      operationId: create-relative
+      parameters:
+      - description: Relative entity
+        in: body
+        name: relative
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Relative'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Relative'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create relative
+  /relatives/{id}:
+    delete:
+      description: get relative by ID
+      operationId: delete-relative
+      parameters:
+      - description: Relative ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a relative entity by ID
+    get:
+      description: get relative by ID
+      operationId: get-relative
+      parameters:
+      - description: Relative ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Relative'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a relative entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update relative by ID
+      operationId: update-relative
+      parameters:
+      - description: Relative ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Relative entity
+        in: body
+        name: relative
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Relative'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Relative'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a relative entity by ID
+  /users:
+    get:
+      description: list user entities
+      operationId: list-user
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.User'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List user entities
+    post:
+      consumes:
+      - application/json
+      description: Create user
+      operationId: create-user
+      parameters:
+      - description: User entity
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/ent.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create user
+  /users/{id}:
+    delete:
+      description: get user by ID
+      operationId: delete-user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a user entity by ID
+    get:
+      description: get user by ID
+      operationId: get-user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a user entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update user by ID
+      operationId: update-user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User entity
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/ent.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a user entity by ID
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+  BasicAuth:
+    type: basic
+  OAuth2AccessCode:
+    authorizationUrl: https://example.com/oauth/authorize
+    flow: accessCode
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+  OAuth2Application:
+    flow: application
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      write: ' Grants write access'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+  OAuth2Implicit:
+    authorizationUrl: https://example.com/oauth/authorize
+    flow: implicit
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      write: ' Grants write access'
+    type: oauth2
+  OAuth2Password:
+    flow: password
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      read: ' Grants read access'
+      write: ' Grants write access'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+swagger: "2.0"

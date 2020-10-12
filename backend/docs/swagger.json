@@ -1,0 +1,1569 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample server for SUT SE 2563",
+        "title": "SUT SA Example API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/coolrooms": {
+            "get": {
+                "description": "list coolroom entities",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "List coolroom entities",
+                "operationId": "list-coolroom",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Offset",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.Coolroom"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create coolroom",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create coolroom",
+                "operationId": "create-coolroom",
+                "parameters": [
+                    {
+                        "description": "Coolroom entity",
+                        "name": "coolroom",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ent.Coolroom"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.Coolroom"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/coolrooms/{id}": {
+            "get": {
+                "description": "get coolroom by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get a coolroom entity by ID",
+                "operationId": "get-coolroom",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Coolroom ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.Coolroom"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "update coolroom by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update a coolroom entity by ID",
+                "operationId": "update-coolroom",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Coolroom ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Coolroom entity",
+                        "name": "coolroom",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ent.Coolroom"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.Coolroom"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "get coolroom by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete a coolroom entity by ID",
+                "operationId": "delete-coolroom",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Coolroom ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/coolroomtypes": {
+            "get": {
+                "description": "list coolroomtype entities",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "List coolroomtype entities",
+                "operationId": "list-coolroomtype",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Offset",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.CoolroomType"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create coolroomtype",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create coolroomtype",
+                "operationId": "create-coolroomtype",
+                "parameters": [
+                    {
+                        "description": "CoolroomType entity",
+                        "name": "coolroomtype",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ent.CoolroomType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.CoolroomType"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/coolroomtypes/{id}": {
+            "get": {
+                "description": "get coolroomtype by ID",
+                "produces": [
+                    "json./main"
+                ],
+                "summary": "Get a coolroomtype entity by ID",
+                "operationId": "get-coolroomtype",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "CoolroomType ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.CoolroomType"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "update coolroomtype by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update a coolroomtype entity by ID",
+                "operationId": "update-coolroomtype",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "CoolroomType ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "CoolroomType entity",
+                        "name": "coolroomtype",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ent.CoolroomType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.CoolroomType"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "get coolroomtype by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete a coolroomtype entity by ID",
+                "operationId": "delete-coolroomtype",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "CoolroomType ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/deceasedreceives": {
+            "get": {
+                "description": "list deceasedreceive entities",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "List deceasedreceive entities",
+                "operationId": "list-deceasedreceive",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Offset",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.DeceasedReceive"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create deceasedreceive",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create deceasedreceive",
+                "operationId": "create-deceasedreceive",
+                "parameters": [
+                    {
+                        "description": "DeceasedReceive entity",
+                        "name": "deceasedreceive",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.DeceasedReceive"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.DeceasedReceive"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/deceasedreceives/{id}": {
+            "delete": {
+                "description": "get deceasedreceive by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete a deceasedreceive entity by ID",
+                "operationId": "delete-deceasedreceive",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "DeceasedReceive ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/patients": {
+            "get": {
+                "description": "list patient entities",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "List patient entities",
+                "operationId": "list-patient",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Offset",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.Patient"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create patient",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create patient",
+                "operationId": "create-patient",
+                "parameters": [
+                    {
+                        "description": "Patient entity",
+                        "name": "patient",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ent.Patient"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.Patient"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/patients/{id}": {
+            "get": {
+                "description": "get patient by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get a patient entity by ID",
+                "operationId": "get-patient",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Patient ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.Patient"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "update patient by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update a patient entity by ID",
+                "operationId": "update-patient",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Patient ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Patient entity",
+                        "name": "patient",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ent.Patient"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.Patient"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "get patient by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete a patient entity by ID",
+                "operationId": "delete-patient",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Patient ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/relatives": {
+            "get": {
+                "description": "list relative entities",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "List relative entities",
+                "operationId": "list-relative",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Offset",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.Relative"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create relative",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create relative",
+                "operationId": "create-relative",
+                "parameters": [
+                    {
+                        "description": "Relative entity",
+                        "name": "relative",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ent.Relative"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.Relative"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/relatives/{id}": {
+            "get": {
+                "description": "get relative by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get a relative entity by ID",
+                "operationId": "get-relative",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Relative ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.Relative"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "update relative by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update a relative entity by ID",
+                "operationId": "update-relative",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Relative ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Relative entity",
+                        "name": "relative",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ent.Relative"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.Relative"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "get relative by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete a relative entity by ID",
+                "operationId": "delete-relative",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Relative ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "description": "list user entities",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "List user entities",
+                "operationId": "list-user",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Offset",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.User"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create user",
+                "operationId": "create-user",
+                "parameters": [
+                    {
+                        "description": "User entity",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ent.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "description": "get user by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get a user entity by ID",
+                "operationId": "get-user",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "update user by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update a user entity by ID",
+                "operationId": "update-user",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "User entity",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ent.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "get user by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete a user entity by ID",
+                "operationId": "delete-user",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "controllers.DeceasedReceive": {
+            "type": "object",
+            "properties": {
+                "coolroomID": {
+                    "type": "integer"
+                },
+                "deathtime": {
+                    "type": "string"
+                },
+                "patientID": {
+                    "type": "integer"
+                },
+                "relativeID": {
+                    "type": "integer"
+                },
+                "userID": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ent.Coolroom": {
+            "type": "object",
+            "properties": {
+                "coolroom_capacity": {
+                    "description": "CoolroomCapacity holds the value of the \"coolroom_capacity\" field.",
+                    "type": "integer"
+                },
+                "coolroom_name": {
+                    "description": "CoolroomName holds the value of the \"coolroom_name\" field.",
+                    "type": "string"
+                },
+                "edges": {
+                    "description": "Edges holds the relations/edges for other nodes in the graph.\nThe values are being populated by the CoolroomQuery when eager-loading is set.",
+                    "type": "object",
+                    "$ref": "#/definitions/ent.CoolroomEdges"
+                },
+                "id": {
+                    "description": "ID of the ent.",
+                    "type": "integer"
+                }
+            }
+        },
+        "ent.CoolroomEdges": {
+            "type": "object",
+            "properties": {
+                "coolroomtype": {
+                    "description": "Coolroomtype holds the value of the coolroomtype edge.",
+                    "type": "object",
+                    "$ref": "#/definitions/ent.CoolroomType"
+                },
+                "deceasedreceives": {
+                    "description": "Deceasedreceives holds the value of the deceasedreceives edge.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ent.DeceasedReceive"
+                    }
+                }
+            }
+        },
+        "ent.CoolroomType": {
+            "type": "object",
+            "properties": {
+                "coolroomtype_name": {
+                    "description": "CoolroomtypeName holds the value of the \"coolroomtype_name\" field.",
+                    "type": "string"
+                },
+                "edges": {
+                    "description": "Edges holds the relations/edges for other nodes in the graph.\nThe values are being populated by the CoolroomTypeQuery when eager-loading is set.",
+                    "type": "object",
+                    "$ref": "#/definitions/ent.CoolroomTypeEdges"
+                },
+                "id": {
+                    "description": "ID of the ent.",
+                    "type": "integer"
+                }
+            }
+        },
+        "ent.CoolroomTypeEdges": {
+            "type": "object",
+            "properties": {
+                "coolrooms": {
+                    "description": "Coolrooms holds the value of the coolrooms edge.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ent.Coolroom"
+                    }
+                }
+            }
+        },
+        "ent.DeceasedReceive": {
+            "type": "object",
+            "properties": {
+                "death_time": {
+                    "description": "DeathTime holds the value of the \"death_time\" field.",
+                    "type": "string"
+                },
+                "edges": {
+                    "description": "Edges holds the relations/edges for other nodes in the graph.\nThe values are being populated by the DeceasedReceiveQuery when eager-loading is set.",
+                    "type": "object",
+                    "$ref": "#/definitions/ent.DeceasedReceiveEdges"
+                },
+                "id": {
+                    "description": "ID of the ent.",
+                    "type": "integer"
+                }
+            }
+        },
+        "ent.DeceasedReceiveEdges": {
+            "type": "object",
+            "properties": {
+                "coolroom": {
+                    "description": "Coolroom holds the value of the coolroom edge.",
+                    "type": "object",
+                    "$ref": "#/definitions/ent.Coolroom"
+                },
+                "doctor": {
+                    "description": "Doctor holds the value of the doctor edge.",
+                    "type": "object",
+                    "$ref": "#/definitions/ent.User"
+                },
+                "patient": {
+                    "description": "Patient holds the value of the patient edge.",
+                    "type": "object",
+                    "$ref": "#/definitions/ent.Patient"
+                },
+                "relative": {
+                    "description": "Relative holds the value of the relative edge.",
+                    "type": "object",
+                    "$ref": "#/definitions/ent.Relative"
+                }
+            }
+        },
+        "ent.Patient": {
+            "type": "object",
+            "properties": {
+                "edges": {
+                    "description": "Edges holds the relations/edges for other nodes in the graph.\nThe values are being populated by the PatientQuery when eager-loading is set.",
+                    "type": "object",
+                    "$ref": "#/definitions/ent.PatientEdges"
+                },
+                "id": {
+                    "description": "ID of the ent.",
+                    "type": "integer"
+                },
+                "patient_age": {
+                    "description": "PatientAge holds the value of the \"patient_age\" field.",
+                    "type": "integer"
+                },
+                "patient_name": {
+                    "description": "PatientName holds the value of the \"patient_name\" field.",
+                    "type": "string"
+                }
+            }
+        },
+        "ent.PatientEdges": {
+            "type": "object",
+            "properties": {
+                "deceasedreceives": {
+                    "description": "Deceasedreceives holds the value of the deceasedreceives edge.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ent.DeceasedReceive"
+                    }
+                }
+            }
+        },
+        "ent.Relative": {
+            "type": "object",
+            "properties": {
+                "edges": {
+                    "description": "Edges holds the relations/edges for other nodes in the graph.\nThe values are being populated by the RelativeQuery when eager-loading is set.",
+                    "type": "object",
+                    "$ref": "#/definitions/ent.RelativeEdges"
+                },
+                "id": {
+                    "description": "ID of the ent.",
+                    "type": "integer"
+                },
+                "relative_name": {
+                    "description": "RelativeName holds the value of the \"relative_name\" field.",
+                    "type": "string"
+                }
+            }
+        },
+        "ent.RelativeEdges": {
+            "type": "object",
+            "properties": {
+                "deceasedreceives": {
+                    "description": "Deceasedreceives holds the value of the deceasedreceives edge.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ent.DeceasedReceive"
+                    }
+                }
+            }
+        },
+        "ent.User": {
+            "type": "object",
+            "properties": {
+                "edges": {
+                    "description": "Edges holds the relations/edges for other nodes in the graph.\nThe values are being populated by the UserQuery when eager-loading is set.",
+                    "type": "object",
+                    "$ref": "#/definitions/ent.UserEdges"
+                },
+                "id": {
+                    "description": "ID of the ent.",
+                    "type": "integer"
+                },
+                "user_name": {
+                    "description": "UserName holds the value of the \"user_name\" field.",
+                    "type": "string"
+                },
+                "useremail": {
+                    "description": "Useremail holds the value of the \"useremail\" field.",
+                    "type": "string"
+                }
+            }
+        },
+        "ent.UserEdges": {
+            "type": "object",
+            "properties": {
+                "deceasedreceives": {
+                    "description": "Deceasedreceives holds the value of the deceasedreceives edge.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ent.DeceasedReceive"
+                    }
+                }
+            }
+        },
+        "gin.H": {
+            "type": "object",
+            "additionalProperties": true
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        },
+        "BasicAuth": {
+            "type": "basic"
+        },
+        "OAuth2AccessCode": {
+            "type": "oauth2",
+            "flow": "accessCode",
+            "authorizationUrl": "https://example.com/oauth/authorize",
+            "tokenUrl": "https://example.com/oauth/token",
+            "scopes": {
+                "admin": " Grants read and write access to administrative information"
+            }
+        },
+        "OAuth2Application": {
+            "type": "oauth2",
+            "flow": "application",
+            "tokenUrl": "https://example.com/oauth/token",
+            "scopes": {
+                "admin": " Grants read and write access to administrative information",
+                "write": " Grants write access"
+            }
+        },
+        "OAuth2Implicit": {
+            "type": "oauth2",
+            "flow": "implicit",
+            "authorizationUrl": "https://example.com/oauth/authorize",
+            "scopes": {
+                "admin": " Grants read and write access to administrative information",
+                "write": " Grants write access"
+            }
+        },
+        "OAuth2Password": {
+            "type": "oauth2",
+            "flow": "password",
+            "tokenUrl": "https://example.com/oauth/token",
+            "scopes": {
+                "admin": " Grants read and write access to administrative information",
+                "read": " Grants read access",
+                "write": " Grants write access"
+            }
+        }
+    }
+}
