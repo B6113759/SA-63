@@ -24,7 +24,6 @@ import { EntCoolroom } from '../../api/models/EntCoolroom';
 import { EntCoolroomType } from '../../api/models/EntCoolroomType';
 import { EntRelative } from '../../api/models/EntRelative';
 import { EntPatient } from '../../api/models/EntPatient';
-import { EntDeceasedReceive } from '../../api/models/EntDeceasedReceive';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -64,7 +63,6 @@ export default function Create() {
   const [coolroomtypes, setCoolroomTypes] = useState<EntCoolroomType[]>([]);
   const [relatives, setRelatives] = useState<EntRelative[]>([]);
   const [patients, setPatients] = useState<EntPatient[]>([]);
-  const [deceasedreceives, setDeceasedReceives] = useState<EntDeceasedReceive[]>([]);
 
   const [loading, setLoading] = useState(true);
   const [deathtime, setDeathtime] = useState(String);
@@ -103,14 +101,6 @@ export default function Create() {
       setPatients(res);
     };
     getPatients();
-
-    const getDeceasedReceives = async () => {
-      const res = await api.listDeceasedreceive({ limit: 20, offset: 0 });
-      setLoading(false);
-      setDeceasedReceives(res);
-      console.log(res);
-    };
-    getDeceasedReceives();
 
   }, [loading]);
   
@@ -269,7 +259,7 @@ export default function Create() {
               >
                 <TextField
                   id="deathtime"
-                  label="ว/ด/ป เวลาเสียชีวิต"
+                  label="เดือน/วัน/ปี เวลาเสียชีวิต"
                   type="datetime-local"
                   value={deathtime}
                   onChange={DeathTimehandleChange}
