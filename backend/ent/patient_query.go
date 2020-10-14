@@ -66,7 +66,7 @@ func (pq *PatientQuery) QueryDeceasedreceives() *DeceasedReceiveQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(patient.Table, patient.FieldID, pq.sqlQuery()),
 			sqlgraph.To(deceasedreceive.Table, deceasedreceive.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, patient.DeceasedreceivesTable, patient.DeceasedreceivesColumn),
+			sqlgraph.Edge(sqlgraph.O2O, false, patient.DeceasedreceivesTable, patient.DeceasedreceivesColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(pq.driver.Dialect(), step)
 		return fromU, nil
@@ -379,7 +379,7 @@ func (pq *PatientQuery) sqlAll(ctx context.Context) ([]*Patient, error) {
 			if !ok {
 				return nil, fmt.Errorf(`unexpected foreign-key "patient_id" returned %v for node %v`, *fk, n.ID)
 			}
-			node.Edges.Deceasedreceives = append(node.Edges.Deceasedreceives, n)
+			node.Edges.Deceasedreceives = n
 		}
 	}
 

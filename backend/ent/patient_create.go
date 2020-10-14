@@ -32,19 +32,23 @@ func (pc *PatientCreate) SetPatientAge(i int) *PatientCreate {
 	return pc
 }
 
-// AddDeceasedreceifeIDs adds the deceasedreceives edge to DeceasedReceive by ids.
-func (pc *PatientCreate) AddDeceasedreceifeIDs(ids ...int) *PatientCreate {
-	pc.mutation.AddDeceasedreceifeIDs(ids...)
+// SetDeceasedreceivesID sets the deceasedreceives edge to DeceasedReceive by id.
+func (pc *PatientCreate) SetDeceasedreceivesID(id int) *PatientCreate {
+	pc.mutation.SetDeceasedreceivesID(id)
 	return pc
 }
 
-// AddDeceasedreceives adds the deceasedreceives edges to DeceasedReceive.
-func (pc *PatientCreate) AddDeceasedreceives(d ...*DeceasedReceive) *PatientCreate {
-	ids := make([]int, len(d))
-	for i := range d {
-		ids[i] = d[i].ID
+// SetNillableDeceasedreceivesID sets the deceasedreceives edge to DeceasedReceive by id if the given value is not nil.
+func (pc *PatientCreate) SetNillableDeceasedreceivesID(id *int) *PatientCreate {
+	if id != nil {
+		pc = pc.SetDeceasedreceivesID(*id)
 	}
-	return pc.AddDeceasedreceifeIDs(ids...)
+	return pc
+}
+
+// SetDeceasedreceives sets the deceasedreceives edge to DeceasedReceive.
+func (pc *PatientCreate) SetDeceasedreceives(d *DeceasedReceive) *PatientCreate {
+	return pc.SetDeceasedreceivesID(d.ID)
 }
 
 // Mutation returns the PatientMutation object of the builder.
@@ -148,7 +152,7 @@ func (pc *PatientCreate) createSpec() (*Patient, *sqlgraph.CreateSpec) {
 	}
 	if nodes := pc.mutation.DeceasedreceivesIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
+			Rel:     sqlgraph.O2O,
 			Inverse: false,
 			Table:   patient.DeceasedreceivesTable,
 			Columns: []string{patient.DeceasedreceivesColumn},

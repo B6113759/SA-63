@@ -117,6 +117,7 @@ func (ctl *PatientController) ListPatient(c *gin.Context) {
 
 	patients, err := ctl.client.Patient.
 		Query().
+		WithDeceasedreceives().
 		Limit(limit).
 		Offset(offset).
 		All(context.Background())

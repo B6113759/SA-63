@@ -47,19 +47,23 @@ func (pu *PatientUpdate) AddPatientAge(i int) *PatientUpdate {
 	return pu
 }
 
-// AddDeceasedreceifeIDs adds the deceasedreceives edge to DeceasedReceive by ids.
-func (pu *PatientUpdate) AddDeceasedreceifeIDs(ids ...int) *PatientUpdate {
-	pu.mutation.AddDeceasedreceifeIDs(ids...)
+// SetDeceasedreceivesID sets the deceasedreceives edge to DeceasedReceive by id.
+func (pu *PatientUpdate) SetDeceasedreceivesID(id int) *PatientUpdate {
+	pu.mutation.SetDeceasedreceivesID(id)
 	return pu
 }
 
-// AddDeceasedreceives adds the deceasedreceives edges to DeceasedReceive.
-func (pu *PatientUpdate) AddDeceasedreceives(d ...*DeceasedReceive) *PatientUpdate {
-	ids := make([]int, len(d))
-	for i := range d {
-		ids[i] = d[i].ID
+// SetNillableDeceasedreceivesID sets the deceasedreceives edge to DeceasedReceive by id if the given value is not nil.
+func (pu *PatientUpdate) SetNillableDeceasedreceivesID(id *int) *PatientUpdate {
+	if id != nil {
+		pu = pu.SetDeceasedreceivesID(*id)
 	}
-	return pu.AddDeceasedreceifeIDs(ids...)
+	return pu
+}
+
+// SetDeceasedreceives sets the deceasedreceives edge to DeceasedReceive.
+func (pu *PatientUpdate) SetDeceasedreceives(d *DeceasedReceive) *PatientUpdate {
+	return pu.SetDeceasedreceivesID(d.ID)
 }
 
 // Mutation returns the PatientMutation object of the builder.
@@ -67,19 +71,10 @@ func (pu *PatientUpdate) Mutation() *PatientMutation {
 	return pu.mutation
 }
 
-// RemoveDeceasedreceifeIDs removes the deceasedreceives edge to DeceasedReceive by ids.
-func (pu *PatientUpdate) RemoveDeceasedreceifeIDs(ids ...int) *PatientUpdate {
-	pu.mutation.RemoveDeceasedreceifeIDs(ids...)
+// ClearDeceasedreceives clears the deceasedreceives edge to DeceasedReceive.
+func (pu *PatientUpdate) ClearDeceasedreceives() *PatientUpdate {
+	pu.mutation.ClearDeceasedreceives()
 	return pu
-}
-
-// RemoveDeceasedreceives removes deceasedreceives edges to DeceasedReceive.
-func (pu *PatientUpdate) RemoveDeceasedreceives(d ...*DeceasedReceive) *PatientUpdate {
-	ids := make([]int, len(d))
-	for i := range d {
-		ids[i] = d[i].ID
-	}
-	return pu.RemoveDeceasedreceifeIDs(ids...)
 }
 
 // Save executes the query and returns the number of rows/vertices matched by this operation.
@@ -183,9 +178,9 @@ func (pu *PatientUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: patient.FieldPatientAge,
 		})
 	}
-	if nodes := pu.mutation.RemovedDeceasedreceivesIDs(); len(nodes) > 0 {
+	if pu.mutation.DeceasedreceivesCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
+			Rel:     sqlgraph.O2O,
 			Inverse: false,
 			Table:   patient.DeceasedreceivesTable,
 			Columns: []string{patient.DeceasedreceivesColumn},
@@ -197,14 +192,11 @@ func (pu *PatientUpdate) sqlSave(ctx context.Context) (n int, err error) {
 				},
 			},
 		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := pu.mutation.DeceasedreceivesIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
+			Rel:     sqlgraph.O2O,
 			Inverse: false,
 			Table:   patient.DeceasedreceivesTable,
 			Columns: []string{patient.DeceasedreceivesColumn},
@@ -258,19 +250,23 @@ func (puo *PatientUpdateOne) AddPatientAge(i int) *PatientUpdateOne {
 	return puo
 }
 
-// AddDeceasedreceifeIDs adds the deceasedreceives edge to DeceasedReceive by ids.
-func (puo *PatientUpdateOne) AddDeceasedreceifeIDs(ids ...int) *PatientUpdateOne {
-	puo.mutation.AddDeceasedreceifeIDs(ids...)
+// SetDeceasedreceivesID sets the deceasedreceives edge to DeceasedReceive by id.
+func (puo *PatientUpdateOne) SetDeceasedreceivesID(id int) *PatientUpdateOne {
+	puo.mutation.SetDeceasedreceivesID(id)
 	return puo
 }
 
-// AddDeceasedreceives adds the deceasedreceives edges to DeceasedReceive.
-func (puo *PatientUpdateOne) AddDeceasedreceives(d ...*DeceasedReceive) *PatientUpdateOne {
-	ids := make([]int, len(d))
-	for i := range d {
-		ids[i] = d[i].ID
+// SetNillableDeceasedreceivesID sets the deceasedreceives edge to DeceasedReceive by id if the given value is not nil.
+func (puo *PatientUpdateOne) SetNillableDeceasedreceivesID(id *int) *PatientUpdateOne {
+	if id != nil {
+		puo = puo.SetDeceasedreceivesID(*id)
 	}
-	return puo.AddDeceasedreceifeIDs(ids...)
+	return puo
+}
+
+// SetDeceasedreceives sets the deceasedreceives edge to DeceasedReceive.
+func (puo *PatientUpdateOne) SetDeceasedreceives(d *DeceasedReceive) *PatientUpdateOne {
+	return puo.SetDeceasedreceivesID(d.ID)
 }
 
 // Mutation returns the PatientMutation object of the builder.
@@ -278,19 +274,10 @@ func (puo *PatientUpdateOne) Mutation() *PatientMutation {
 	return puo.mutation
 }
 
-// RemoveDeceasedreceifeIDs removes the deceasedreceives edge to DeceasedReceive by ids.
-func (puo *PatientUpdateOne) RemoveDeceasedreceifeIDs(ids ...int) *PatientUpdateOne {
-	puo.mutation.RemoveDeceasedreceifeIDs(ids...)
+// ClearDeceasedreceives clears the deceasedreceives edge to DeceasedReceive.
+func (puo *PatientUpdateOne) ClearDeceasedreceives() *PatientUpdateOne {
+	puo.mutation.ClearDeceasedreceives()
 	return puo
-}
-
-// RemoveDeceasedreceives removes deceasedreceives edges to DeceasedReceive.
-func (puo *PatientUpdateOne) RemoveDeceasedreceives(d ...*DeceasedReceive) *PatientUpdateOne {
-	ids := make([]int, len(d))
-	for i := range d {
-		ids[i] = d[i].ID
-	}
-	return puo.RemoveDeceasedreceifeIDs(ids...)
 }
 
 // Save executes the query and returns the updated entity.
@@ -392,9 +379,9 @@ func (puo *PatientUpdateOne) sqlSave(ctx context.Context) (pa *Patient, err erro
 			Column: patient.FieldPatientAge,
 		})
 	}
-	if nodes := puo.mutation.RemovedDeceasedreceivesIDs(); len(nodes) > 0 {
+	if puo.mutation.DeceasedreceivesCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
+			Rel:     sqlgraph.O2O,
 			Inverse: false,
 			Table:   patient.DeceasedreceivesTable,
 			Columns: []string{patient.DeceasedreceivesColumn},
@@ -406,14 +393,11 @@ func (puo *PatientUpdateOne) sqlSave(ctx context.Context) (pa *Patient, err erro
 				},
 			},
 		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := puo.mutation.DeceasedreceivesIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
+			Rel:     sqlgraph.O2O,
 			Inverse: false,
 			Table:   patient.DeceasedreceivesTable,
 			Columns: []string{patient.DeceasedreceivesColumn},

@@ -238,7 +238,7 @@ func (drc *DeceasedReceiveCreate) createSpec() (*DeceasedReceive, *sqlgraph.Crea
 	}
 	if nodes := drc.mutation.PatientIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
+			Rel:     sqlgraph.O2O,
 			Inverse: true,
 			Table:   deceasedreceive.PatientTable,
 			Columns: []string{deceasedreceive.PatientColumn},

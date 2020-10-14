@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/B6113759/app/ent/deceasedreceive"
 	"github.com/B6113759/app/ent/patient"
 	"github.com/facebookincubator/ent/dialect/sql"
 )
@@ -27,16 +28,21 @@ type Patient struct {
 // PatientEdges holds the relations/edges for other nodes in the graph.
 type PatientEdges struct {
 	// Deceasedreceives holds the value of the deceasedreceives edge.
-	Deceasedreceives []*DeceasedReceive
+	Deceasedreceives *DeceasedReceive
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
 }
 
 // DeceasedreceivesOrErr returns the Deceasedreceives value or an error if the edge
-// was not loaded in eager-loading.
-func (e PatientEdges) DeceasedreceivesOrErr() ([]*DeceasedReceive, error) {
+// was not loaded in eager-loading, or loaded but was not found.
+func (e PatientEdges) DeceasedreceivesOrErr() (*DeceasedReceive, error) {
 	if e.loadedTypes[0] {
+		if e.Deceasedreceives == nil {
+			// The edge deceasedreceives was loaded in eager-loading,
+			// but was not found.
+			return nil, &NotFoundError{label: deceasedreceive.Label}
+		}
 		return e.Deceasedreceives, nil
 	}
 	return nil, &NotLoadedError{edge: "deceasedreceives"}

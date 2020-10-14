@@ -298,7 +298,7 @@ func HasDeceasedreceives() predicate.Patient {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.To(DeceasedreceivesTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, DeceasedreceivesTable, DeceasedreceivesColumn),
+			sqlgraph.Edge(sqlgraph.O2O, false, DeceasedreceivesTable, DeceasedreceivesColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
@@ -310,7 +310,7 @@ func HasDeceasedreceivesWith(preds ...predicate.DeceasedReceive) predicate.Patie
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.To(DeceasedreceivesInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, DeceasedreceivesTable, DeceasedreceivesColumn),
+			sqlgraph.Edge(sqlgraph.O2O, false, DeceasedreceivesTable, DeceasedreceivesColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {

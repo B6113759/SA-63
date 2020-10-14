@@ -121,10 +121,9 @@ definitions:
   ent.PatientEdges:
     properties:
       deceasedreceives:
+        $ref: '#/definitions/ent.DeceasedReceive'
         description: Deceasedreceives holds the value of the deceasedreceives edge.
-        items:
-          $ref: '#/definitions/ent.DeceasedReceive'
-        type: array
+        type: object
     type: object
   ent.Relative:
     properties:

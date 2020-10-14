@@ -47,7 +47,7 @@ var (
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "death_time", Type: field.TypeTime},
 		{Name: "coolroom_id", Type: field.TypeInt, Nullable: true},
-		{Name: "patient_id", Type: field.TypeInt, Nullable: true},
+		{Name: "patient_id", Type: field.TypeInt, Unique: true, Nullable: true},
 		{Name: "relative_id", Type: field.TypeInt, Nullable: true},
 		{Name: "doctor_id", Type: field.TypeInt, Nullable: true},
 	}

@@ -323,7 +323,7 @@ func (dru *DeceasedReceiveUpdate) sqlSave(ctx context.Context) (n int, err error
 	}
 	if dru.mutation.PatientCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
+			Rel:     sqlgraph.O2O,
 			Inverse: true,
 			Table:   deceasedreceive.PatientTable,
 			Columns: []string{deceasedreceive.PatientColumn},
@@ -339,7 +339,7 @@ func (dru *DeceasedReceiveUpdate) sqlSave(ctx context.Context) (n int, err error
 	}
 	if nodes := dru.mutation.PatientIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
+			Rel:     sqlgraph.O2O,
 			Inverse: true,
 			Table:   deceasedreceive.PatientTable,
 			Columns: []string{deceasedreceive.PatientColumn},
@@ -662,7 +662,7 @@ func (druo *DeceasedReceiveUpdateOne) sqlSave(ctx context.Context) (dr *Deceased
 	}
 	if druo.mutation.PatientCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
+			Rel:     sqlgraph.O2O,
 			Inverse: true,
 			Table:   deceasedreceive.PatientTable,
 			Columns: []string{deceasedreceive.PatientColumn},
@@ -678,7 +678,7 @@ func (druo *DeceasedReceiveUpdateOne) sqlSave(ctx context.Context) (dr *Deceased
 	}
 	if nodes := druo.mutation.PatientIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
+			Rel:     sqlgraph.O2O,
 			Inverse: true,
 			Table:   deceasedreceive.PatientTable,
 			Columns: []string{deceasedreceive.PatientColumn},

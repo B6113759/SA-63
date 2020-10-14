@@ -126,7 +126,7 @@ func (drq *DeceasedReceiveQuery) QueryPatient() *PatientQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(deceasedreceive.Table, deceasedreceive.FieldID, drq.sqlQuery()),
 			sqlgraph.To(patient.Table, patient.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, deceasedreceive.PatientTable, deceasedreceive.PatientColumn),
+			sqlgraph.Edge(sqlgraph.O2O, true, deceasedreceive.PatientTable, deceasedreceive.PatientColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(drq.driver.Dialect(), step)
 		return fromU, nil

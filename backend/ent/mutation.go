@@ -1471,8 +1471,8 @@ type PatientMutation struct {
 	patient_age             *int
 	addpatient_age          *int
 	clearedFields           map[string]struct{}
-	deceasedreceives        map[int]struct{}
-	removeddeceasedreceives map[int]struct{}
+	deceasedreceives        *int
+	cleareddeceasedreceives bool
 	done                    bool
 	oldValue                func(context.Context) (*Patient, error)
 }
@@ -1650,38 +1650,35 @@ func (m *PatientMutation) ResetPatientAge() {
 	m.addpatient_age = nil
 }
 
-// AddDeceasedreceifeIDs adds the deceasedreceives edge to DeceasedReceive by ids.
-func (m *PatientMutation) AddDeceasedreceifeIDs(ids ...int) {
-	if m.deceasedreceives == nil {
-		m.deceasedreceives = make(map[int]struct{})
-	}
-	for i := range ids {
-		m.deceasedreceives[ids[i]] = struct{}{}
-	}
+// SetDeceasedreceivesID sets the deceasedreceives edge to DeceasedReceive by id.
+func (m *PatientMutation) SetDeceasedreceivesID(id int) {
+	m.deceasedreceives = &id
 }
 
-// RemoveDeceasedreceifeIDs removes the deceasedreceives edge to DeceasedReceive by ids.
-func (m *PatientMutation) RemoveDeceasedreceifeIDs(ids ...int) {
-	if m.removeddeceasedreceives == nil {
-		m.removeddeceasedreceives = make(map[int]struct{})
-	}
-	for i := range ids {
-		m.removeddeceasedreceives[ids[i]] = struct{}{}
-	}
+// ClearDeceasedreceives clears the deceasedreceives edge to DeceasedReceive.
+func (m *PatientMutation) ClearDeceasedreceives() {
+	m.cleareddeceasedreceives = true
 }
 
-// RemovedDeceasedreceives returns the removed ids of deceasedreceives.
-func (m *PatientMutation) RemovedDeceasedreceivesIDs() (ids []int) {
-	for id := range m.removeddeceasedreceives {
-		ids = append(ids, id)
+// DeceasedreceivesCleared returns if the edge deceasedreceives was cleared.
+func (m *PatientMutation) DeceasedreceivesCleared() bool {
+	return m.cleareddeceasedreceives
+}
+
+// DeceasedreceivesID returns the deceasedreceives id in the mutation.
+func (m *PatientMutation) DeceasedreceivesID() (id int, exists bool) {
+	if m.deceasedreceives != nil {
+		return *m.deceasedreceives, true
 	}
 	return
 }
 
 // DeceasedreceivesIDs returns the deceasedreceives ids in the mutation.
+// Note that ids always returns len(ids) <= 1 for unique edges, and you should use
+// DeceasedreceivesID instead. It exists only for internal usage by the builders.
 func (m *PatientMutation) DeceasedreceivesIDs() (ids []int) {
-	for id := range m.deceasedreceives {
-		ids = append(ids, id)
+	if id := m.deceasedreceives; id != nil {
+		ids = append(ids, *id)
 	}
 	return
 }
@@ -1689,7 +1686,7 @@ func (m *PatientMutation) DeceasedreceivesIDs() (ids []int) {
 // ResetDeceasedreceives reset all changes of the "deceasedreceives" edge.
 func (m *PatientMutation) ResetDeceasedreceives() {
 	m.deceasedreceives = nil
-	m.removeddeceasedreceives = nil
+	m.cleareddeceasedreceives = false
 }
 
 // Op returns the operation name.
@@ -1851,11 +1848,9 @@ func (m *PatientMutation) AddedEdges() []string {
 func (m *PatientMutation) AddedIDs(name string) []ent.Value {
 	switch name {
 	case patient.EdgeDeceasedreceives:
-		ids := make([]ent.Value, 0, len(m.deceasedreceives))
-		for id := range m.deceasedreceives {
-			ids = append(ids, id)
+		if id := m.deceasedreceives; id != nil {
+			return []ent.Value{*id}
 		}
-		return ids
 	}
 	return nil
 }
@@ -1864,9 +1859,6 @@ func (m *PatientMutation) AddedIDs(name string) []ent.Value {
 // mutation.
 func (m *PatientMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.removeddeceasedreceives != nil {
-		edges = append(edges, patient.EdgeDeceasedreceives)
-	}
 	return edges
 }
 
@@ -1874,12 +1866,6 @@ func (m *PatientMutation) RemovedEdges() []string {
 // the given edge name.
 func (m *PatientMutation) RemovedIDs(name string) []ent.Value {
 	switch name {
-	case patient.EdgeDeceasedreceives:
-		ids := make([]ent.Value, 0, len(m.removeddeceasedreceives))
-		for id := range m.removeddeceasedreceives {
-			ids = append(ids, id)
-		}
-		return ids
 	}
 	return nil
 }
@@ -1888,6 +1874,9 @@ func (m *PatientMutation) RemovedIDs(name string) []ent.Value {
 // mutation.
 func (m *PatientMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 1)
+	if m.cleareddeceasedreceives {
+		edges = append(edges, patient.EdgeDeceasedreceives)
+	}
 	return edges
 }
 
@@ -1895,6 +1884,8 @@ func (m *PatientMutation) ClearedEdges() []string {
 // cleared in this mutation.
 func (m *PatientMutation) EdgeCleared(name string) bool {
 	switch name {
+	case patient.EdgeDeceasedreceives:
+		return m.cleareddeceasedreceives
 	}
 	return false
 }
@@ -1903,6 +1894,9 @@ func (m *PatientMutation) EdgeCleared(name string) bool {
 // error if the edge name is not defined in the schema.
 func (m *PatientMutation) ClearEdge(name string) error {
 	switch name {
+	case patient.EdgeDeceasedreceives:
+		m.ClearDeceasedreceives()
+		return nil
 	}
 	return fmt.Errorf("unknown Patient unique edge %s", name)
 }

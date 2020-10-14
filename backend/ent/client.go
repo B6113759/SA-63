@@ -500,7 +500,7 @@ func (c *DeceasedReceiveClient) QueryPatient(dr *DeceasedReceive) *PatientQuery 
 		step := sqlgraph.NewStep(
 			sqlgraph.From(deceasedreceive.Table, deceasedreceive.FieldID, id),
 			sqlgraph.To(patient.Table, patient.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, deceasedreceive.PatientTable, deceasedreceive.PatientColumn),
+			sqlgraph.Edge(sqlgraph.O2O, true, deceasedreceive.PatientTable, deceasedreceive.PatientColumn),
 		)
 		fromV = sqlgraph.Neighbors(dr.driver.Dialect(), step)
 		return fromV, nil
@@ -599,7 +599,7 @@ func (c *PatientClient) QueryDeceasedreceives(pa *Patient) *DeceasedReceiveQuery
 		step := sqlgraph.NewStep(
 			sqlgraph.From(patient.Table, patient.FieldID, id),
 			sqlgraph.To(deceasedreceive.Table, deceasedreceive.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, patient.DeceasedreceivesTable, patient.DeceasedreceivesColumn),
+			sqlgraph.Edge(sqlgraph.O2O, false, patient.DeceasedreceivesTable, patient.DeceasedreceivesColumn),
 		)
 		fromV = sqlgraph.Neighbors(pa.driver.Dialect(), step)
 		return fromV, nil

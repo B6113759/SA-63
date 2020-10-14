@@ -64,13 +64,13 @@ export default function Create() {
   const [coolroomtypes, setCoolroomTypes] = useState<EntCoolroomType[]>([]);
   const [relatives, setRelatives] = useState<EntRelative[]>([]);
   const [patients, setPatients] = useState<EntPatient[]>([]);
-  const [deceasedreceives, setDeceasedreceives] = useState<EntDeceasedReceive[]>([]);
+  const [deceasedreceives, setDeceasedReceives] = useState<EntDeceasedReceive[]>([]);
 
   const [loading, setLoading] = useState(true);
   const [deathtime, setDeathtime] = useState(String);
 
   const [coolroomid, setcoolroom] = useState(Number);
-  const [typeid, setDeadStatus] = useState(Number);
+  const [coolroomtypeid, setCoolroomType] = useState(Number);
   const [relativeid, setRelative] = useState(Number);
   const [patientid, setPatient] = useState(Number);
 
@@ -101,18 +101,21 @@ export default function Create() {
       const res = await api.listPatient({ limit: 10, offset: 0 });
       setLoading(false);
       setPatients(res);
-      console.log(res);
     };
     getPatients();
 
+    const getDeceasedReceives = async () => {
+      const res = await api.listDeceasedreceive({ limit: 20, offset: 0 });
+      setLoading(false);
+      setDeceasedReceives(res);
+      console.log(res);
+    };
+    getDeceasedReceives();
+
   }, [loading]);
+  
 
-  const getDeceasedReceives = async () => {
-    const res = await api.listDeceasedreceive({ limit: 10, offset: 0 });
-    setDeceasedreceives(res);
-  };
-
-  const handleDeathtimeChange = (event: any) => {
+  const DeathTimehandleChange = (event: any) => {
     setDeathtime(event.target.value as string);
   };
 
@@ -120,8 +123,8 @@ export default function Create() {
     setcoolroom(event.target.value as number);
   };
 
-  const DeathtypehandleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setDeadStatus(event.target.value as number);
+  const CoolroomTypehandleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setCoolroomType(event.target.value as number);
   };
 
   const RelativehandleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -141,7 +144,6 @@ export default function Create() {
       deathtime: deathtime + ":00+07:00"
 
     };
-    console.log(deceasedreceive);
     const res: any = await api.createDeceasedreceive({ deceasedreceive: deceasedreceive });
     setStatus(true);
     if (res.id != '') {
@@ -174,11 +176,11 @@ export default function Create() {
             <div>
               {alert ? (
                 <Alert severity="success">
-                  This is a success alert — check it out!
+                  บันทึกสำเร็จ
                 </Alert>
               ) : (
                   <Alert severity="warning" style={{ marginTop: 20 }}>
-                    This is a warning alert — check it out!
+                    พบปัญหาระหว่างบันทึกข้อมูล
                   </Alert>
                 )}
             </div>
@@ -198,7 +200,7 @@ export default function Create() {
                   onChange={PatienthandleChange}
                   style={{ width: 400 }}
                 >
-                {patients.map((item: EntPatient) => (
+                {patients.filter((filter:any) => filter.edges.deceasedreceives == null).map((item: EntPatient) => (
                   <MenuItem value={item.id}>{item.patientName}</MenuItem>
                 ))}
                 </Select>
@@ -232,8 +234,8 @@ export default function Create() {
               <Select
                 labelId="status-death"
                 id="statusdeath"
-                value={typeid}
-                onChange={DeathtypehandleChange}
+                value={coolroomtypeid}
+                onChange={CoolroomTypehandleChange}
                 style={{ width: 200 }}
               >
                 {coolroomtypes.map((item: EntCoolroomType) => (
@@ -255,7 +257,7 @@ export default function Create() {
                   onChange={CoolroomhandleChange}
                   style={{ width: 200 }}
                 >
-                  {coolrooms.filter((setfilterid:any) => setfilterid.edges.coolroomtype.id === typeid).map(item => (
+                  {coolrooms.filter((setfilterid:any) => setfilterid.edges.coolroomtype.id === coolroomtypeid).map(item => (
                   <MenuItem value={item.id}>{item.coolroomName}</MenuItem>                 
                 ))}
                 </Select>
@@ -270,7 +272,7 @@ export default function Create() {
                   label="ว/ด/ป เวลาเสียชีวิต"
                   type="datetime-local"
                   value={deathtime}
-                  onChange={handleDeathtimeChange}
+                  onChange={DeathTimehandleChange}
                   className={classes.textField}
                   InputLabelProps={{
                     shrink: true,

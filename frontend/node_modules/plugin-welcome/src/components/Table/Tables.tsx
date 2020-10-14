@@ -41,7 +41,6 @@ export default function ComponentsTable() {
     const res = await api.listCoolroom({ limit: 10, offset: 0 });
     setLoading(false);
     setCoolrooms(res);
-    console.log(res);
   };
   getCoolrooms();
 
@@ -61,7 +60,7 @@ export default function ComponentsTable() {
            <TableCell align="center">ชื่อ-สกุล</TableCell>
            <TableCell align="center">ชื่อ-สกุล ของญาติ</TableCell>
            <TableCell align="center">หมายเลขห้องเก็บศพ</TableCell>
-           <TableCell align="center">วัน/เดือน/ปี ที่เสียชีวิต</TableCell>
+           <TableCell align="center">วัน/เดือน/ปี เวลา ที่เสียชีวิต</TableCell>
            <TableCell align="center">ประเภทของศพผู้เสียชีวิต</TableCell>
            <TableCell align="center">จัดการข้อมูล</TableCell>
          </TableRow>
@@ -73,8 +72,8 @@ export default function ComponentsTable() {
              <TableCell align="center">{item.edges.patient.patientName}</TableCell>
              <TableCell align="center">{item.edges.relative.relativeName}</TableCell>
              <TableCell align="center">{item.edges.coolroom.coolroomName}</TableCell>
-             <TableCell align="center">{moment(item.deathTime).format('DD/MM/YYYY HH:mm')}</TableCell>
-             {coolrooms.filter((setfilterid:any) => setfilterid.id === item.edges.coolroom.id).map((item2:any) => (
+             <TableCell align="center">{moment(item.deathTime).format('DD/MM/YYYY HH.mm น.')}</TableCell>
+             {coolrooms.filter((filter:EntCoolroom) => filter.id === item.edges.coolroom.id).map((item2:any) => (
                   <TableCell align="center">{item2.edges.coolroomtype.coolroomtypeName}</TableCell>
               ))}
              <TableCell align="center">

@@ -1458,10 +1458,8 @@ var doc = `{
             "properties": {
                 "deceasedreceives": {
                     "description": "Deceasedreceives holds the value of the deceasedreceives edge.",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/ent.DeceasedReceive"
-                    }
+                    "type": "object",
+                    "$ref": "#/definitions/ent.DeceasedReceive"
                 }
             }
         },

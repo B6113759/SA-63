@@ -27,11 +27,11 @@ import {
  */
 export interface EntPatientEdges {
     /**
-     * Deceasedreceives holds the value of the deceasedreceives edge.
-     * @type {Array<EntDeceasedReceive>}
+     * 
+     * @type {EntDeceasedReceive}
      * @memberof EntPatientEdges
      */
-    deceasedreceives?: Array<EntDeceasedReceive>;
+    deceasedreceives?: EntDeceasedReceive;
 }
 
 export function EntPatientEdgesFromJSON(json: any): EntPatientEdges {
@@ -44,7 +44,7 @@ export function EntPatientEdgesFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'deceasedreceives': !exists(json, 'Deceasedreceives') ? undefined : ((json['Deceasedreceives'] as Array<any>).map(EntDeceasedReceiveFromJSON)),
+        'deceasedreceives': !exists(json, 'Deceasedreceives') ? undefined : EntDeceasedReceiveFromJSON(json['Deceasedreceives']),
     };
 }
 
@@ -57,7 +57,7 @@ export function EntPatientEdgesToJSON(value?: EntPatientEdges | null): any {
     }
     return {
         
-        'deceasedreceives': value.deceasedreceives === undefined ? undefined : ((value.deceasedreceives as Array<any>).map(EntDeceasedReceiveToJSON)),
+        'deceasedreceives': EntDeceasedReceiveToJSON(value.deceasedreceives),
     };
 }
 
