@@ -43,8 +43,6 @@ type CoolroomMutation struct {
 	typ                     string
 	id                      *int
 	coolroom_name           *string
-	coolroom_capacity       *int
-	addcoolroom_capacity    *int
 	clearedFields           map[string]struct{}
 	deceasedreceives        map[int]struct{}
 	removeddeceasedreceives map[int]struct{}
@@ -170,63 +168,6 @@ func (m *CoolroomMutation) ResetCoolroomName() {
 	m.coolroom_name = nil
 }
 
-// SetCoolroomCapacity sets the coolroom_capacity field.
-func (m *CoolroomMutation) SetCoolroomCapacity(i int) {
-	m.coolroom_capacity = &i
-	m.addcoolroom_capacity = nil
-}
-
-// CoolroomCapacity returns the coolroom_capacity value in the mutation.
-func (m *CoolroomMutation) CoolroomCapacity() (r int, exists bool) {
-	v := m.coolroom_capacity
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldCoolroomCapacity returns the old coolroom_capacity value of the Coolroom.
-// If the Coolroom object wasn't provided to the builder, the object is fetched
-// from the database.
-// An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *CoolroomMutation) OldCoolroomCapacity(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldCoolroomCapacity is allowed only on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldCoolroomCapacity requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldCoolroomCapacity: %w", err)
-	}
-	return oldValue.CoolroomCapacity, nil
-}
-
-// AddCoolroomCapacity adds i to coolroom_capacity.
-func (m *CoolroomMutation) AddCoolroomCapacity(i int) {
-	if m.addcoolroom_capacity != nil {
-		*m.addcoolroom_capacity += i
-	} else {
-		m.addcoolroom_capacity = &i
-	}
-}
-
-// AddedCoolroomCapacity returns the value that was added to the coolroom_capacity field in this mutation.
-func (m *CoolroomMutation) AddedCoolroomCapacity() (r int, exists bool) {
-	v := m.addcoolroom_capacity
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetCoolroomCapacity reset all changes of the "coolroom_capacity" field.
-func (m *CoolroomMutation) ResetCoolroomCapacity() {
-	m.coolroom_capacity = nil
-	m.addcoolroom_capacity = nil
-}
-
 // AddDeceasedreceifeIDs adds the deceasedreceives edge to DeceasedReceive by ids.
 func (m *CoolroomMutation) AddDeceasedreceifeIDs(ids ...int) {
 	if m.deceasedreceives == nil {
@@ -322,12 +263,9 @@ func (m *CoolroomMutation) Type() string {
 // this mutation. Note that, in order to get all numeric
 // fields that were in/decremented, call AddedFields().
 func (m *CoolroomMutation) Fields() []string {
-	fields := make([]string, 0, 2)
+	fields := make([]string, 0, 1)
 	if m.coolroom_name != nil {
 		fields = append(fields, coolroom.FieldCoolroomName)
-	}
-	if m.coolroom_capacity != nil {
-		fields = append(fields, coolroom.FieldCoolroomCapacity)
 	}
 	return fields
 }
@@ -339,8 +277,6 @@ func (m *CoolroomMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case coolroom.FieldCoolroomName:
 		return m.CoolroomName()
-	case coolroom.FieldCoolroomCapacity:
-		return m.CoolroomCapacity()
 	}
 	return nil, false
 }
@@ -352,8 +288,6 @@ func (m *CoolroomMutation) OldField(ctx context.Context, name string) (ent.Value
 	switch name {
 	case coolroom.FieldCoolroomName:
 		return m.OldCoolroomName(ctx)
-	case coolroom.FieldCoolroomCapacity:
-		return m.OldCoolroomCapacity(ctx)
 	}
 	return nil, fmt.Errorf("unknown Coolroom field %s", name)
 }
@@ -370,13 +304,6 @@ func (m *CoolroomMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetCoolroomName(v)
 		return nil
-	case coolroom.FieldCoolroomCapacity:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetCoolroomCapacity(v)
-		return nil
 	}
 	return fmt.Errorf("unknown Coolroom field %s", name)
 }
@@ -384,21 +311,13 @@ func (m *CoolroomMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented
 // or decremented during this mutation.
 func (m *CoolroomMutation) AddedFields() []string {
-	var fields []string
-	if m.addcoolroom_capacity != nil {
-		fields = append(fields, coolroom.FieldCoolroomCapacity)
-	}
-	return fields
+	return nil
 }
 
 // AddedField returns the numeric value that was in/decremented
 // from a field with the given name. The second value indicates
 // that this field was not set, or was not define in the schema.
 func (m *CoolroomMutation) AddedField(name string) (ent.Value, bool) {
-	switch name {
-	case coolroom.FieldCoolroomCapacity:
-		return m.AddedCoolroomCapacity()
-	}
 	return nil, false
 }
 
@@ -407,13 +326,6 @@ func (m *CoolroomMutation) AddedField(name string) (ent.Value, bool) {
 // type mismatch the field type.
 func (m *CoolroomMutation) AddField(name string, value ent.Value) error {
 	switch name {
-	case coolroom.FieldCoolroomCapacity:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddCoolroomCapacity(v)
-		return nil
 	}
 	return fmt.Errorf("unknown Coolroom numeric field %s", name)
 }
@@ -444,9 +356,6 @@ func (m *CoolroomMutation) ResetField(name string) error {
 	switch name {
 	case coolroom.FieldCoolroomName:
 		m.ResetCoolroomName()
-		return nil
-	case coolroom.FieldCoolroomCapacity:
-		m.ResetCoolroomCapacity()
 		return nil
 	}
 	return fmt.Errorf("unknown Coolroom field %s", name)

@@ -80,14 +80,6 @@ export default function Create() {
     };
     getCoolroomTypes();
 
-    const getCoolrooms = async () => {
-      const res = await api.listCoolroom({ limit: 10, offset: 0 });
-      setLoading(false);
-      setCoolrooms(res);
-      console.log(res);
-    };
-    getCoolrooms();
-
     const getRelatives = async () => {
       const res = await api.listRelative({ limit: 10, offset: 0 });
       setLoading(false);
@@ -113,8 +105,10 @@ export default function Create() {
     setcoolroom(event.target.value as number);
   };
 
-  const CoolroomTypehandleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const CoolroomTypehandleChange = async (event: React.ChangeEvent<{ value: unknown }>) => {
     setCoolroomType(event.target.value as number);
+    const res = await api.listCoolroomByCoolroomtype({typeid:event.target.value as number, limit: 10, offset: 0 });
+    setCoolrooms(res);
   };
 
   const RelativehandleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -134,10 +128,12 @@ export default function Create() {
       deathtime: deathtime + ":00+07:00"
 
     };
+    console.log(deceasedreceive);
     const res: any = await api.createDeceasedreceive({ deceasedreceive: deceasedreceive });
     setStatus(true);
     if (res.id != '') {
       setAlert(true);
+      window.location.reload(false);
     } else {
       setAlert(false);
     }
@@ -229,7 +225,7 @@ export default function Create() {
                 style={{ width: 200 }}
               >
                 {coolroomtypes.map((item: EntCoolroomType) => (
-                  <MenuItem value={item.id}>{item.coolroomtypeName}</MenuItem>
+                  <MenuItem key={item.id} value={item.id}>{item.coolroomtypeName}</MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -247,7 +243,7 @@ export default function Create() {
                   onChange={CoolroomhandleChange}
                   style={{ width: 200 }}
                 >
-                  {coolrooms.filter((setfilterid:any) => setfilterid.edges.coolroomtype.id === coolroomtypeid).map(item => (
+                  {coolrooms.map(item => (
                   <MenuItem value={item.id}>{item.coolroomName}</MenuItem>                 
                 ))}
                 </Select>

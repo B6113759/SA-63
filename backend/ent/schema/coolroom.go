@@ -15,7 +15,6 @@ type Coolroom struct {
 func (Coolroom) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("coolroom_name").NotEmpty(),
-		field.Int("coolroom_capacity").Positive(),
 	}
 }
 

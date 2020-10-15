@@ -96,7 +96,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ent.Coolroom"
+                            "$ref": "#/definitions/controllers.Coolroom"
                         }
                     }
                 ],
@@ -246,6 +246,59 @@ var doc = `{
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/coolroomswithcoolroomtype": {
+            "get": {
+                "description": "list coolroom entities by coolroomtype",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "List coolroom entities by coolroomtype",
+                "operationId": "list-coolroom-by-coolroomtype",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Typeid",
+                        "name": "typeid",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Offset",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.Coolroom"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/gin.H"
                         }
@@ -1299,6 +1352,17 @@ var doc = `{
         }
     },
     "definitions": {
+        "controllers.Coolroom": {
+            "type": "object",
+            "properties": {
+                "coolroomname": {
+                    "type": "string"
+                },
+                "coomroomtypeid": {
+                    "type": "integer"
+                }
+            }
+        },
         "controllers.DeceasedReceive": {
             "type": "object",
             "properties": {
@@ -1322,10 +1386,6 @@ var doc = `{
         "ent.Coolroom": {
             "type": "object",
             "properties": {
-                "coolroom_capacity": {
-                    "description": "CoolroomCapacity holds the value of the \"coolroom_capacity\" field.",
-                    "type": "integer"
-                },
                 "coolroom_name": {
                     "description": "CoolroomName holds the value of the \"coolroom_name\" field.",
                     "type": "string"

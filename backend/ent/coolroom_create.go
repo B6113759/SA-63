@@ -27,12 +27,6 @@ func (cc *CoolroomCreate) SetCoolroomName(s string) *CoolroomCreate {
 	return cc
 }
 
-// SetCoolroomCapacity sets the coolroom_capacity field.
-func (cc *CoolroomCreate) SetCoolroomCapacity(i int) *CoolroomCreate {
-	cc.mutation.SetCoolroomCapacity(i)
-	return cc
-}
-
 // AddDeceasedreceifeIDs adds the deceasedreceives edge to DeceasedReceive by ids.
 func (cc *CoolroomCreate) AddDeceasedreceifeIDs(ids ...int) *CoolroomCreate {
 	cc.mutation.AddDeceasedreceifeIDs(ids...)
@@ -80,14 +74,6 @@ func (cc *CoolroomCreate) Save(ctx context.Context) (*Coolroom, error) {
 	if v, ok := cc.mutation.CoolroomName(); ok {
 		if err := coolroom.CoolroomNameValidator(v); err != nil {
 			return nil, &ValidationError{Name: "coolroom_name", err: fmt.Errorf("ent: validator failed for field \"coolroom_name\": %w", err)}
-		}
-	}
-	if _, ok := cc.mutation.CoolroomCapacity(); !ok {
-		return nil, &ValidationError{Name: "coolroom_capacity", err: errors.New("ent: missing required field \"coolroom_capacity\"")}
-	}
-	if v, ok := cc.mutation.CoolroomCapacity(); ok {
-		if err := coolroom.CoolroomCapacityValidator(v); err != nil {
-			return nil, &ValidationError{Name: "coolroom_capacity", err: fmt.Errorf("ent: validator failed for field \"coolroom_capacity\": %w", err)}
 		}
 	}
 	var (
@@ -157,14 +143,6 @@ func (cc *CoolroomCreate) createSpec() (*Coolroom, *sqlgraph.CreateSpec) {
 			Column: coolroom.FieldCoolroomName,
 		})
 		c.CoolroomName = value
-	}
-	if value, ok := cc.mutation.CoolroomCapacity(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: coolroom.FieldCoolroomCapacity,
-		})
-		c.CoolroomCapacity = value
 	}
 	if nodes := cc.mutation.DeceasedreceivesIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{

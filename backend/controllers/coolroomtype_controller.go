@@ -36,7 +36,7 @@ func (ctl *CoolroomTypeController) CreateCoolroomType(c *gin.Context) {
 		return
 	}
 
-	u, err := ctl.client.CoolroomType.
+	ct, err := ctl.client.CoolroomType.
 		Create().
 		SetCoolroomtypeName(obj.CoolroomtypeName).
 		Save(context.Background())
@@ -47,7 +47,7 @@ func (ctl *CoolroomTypeController) CreateCoolroomType(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, u)
+	c.JSON(200, ct)
 }
 
 // GetCoolroomType handles GET requests to retrieve a coolroomtype entity
@@ -70,7 +70,7 @@ func (ctl *CoolroomTypeController) GetCoolroomType(c *gin.Context) {
 		return
 	}
 
-	u, err := ctl.client.CoolroomType.
+	ct, err := ctl.client.CoolroomType.
 		Query().
 		Where(coolroomtype.IDEQ(int(id))).
 		Only(context.Background())
@@ -81,7 +81,7 @@ func (ctl *CoolroomTypeController) GetCoolroomType(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, u)
+	c.JSON(200, ct)
 }
 
 // ListCoolroomType handles request to get a list of coolroomtype entities
@@ -190,7 +190,7 @@ func (ctl *CoolroomTypeController) UpdateCoolroomType(c *gin.Context) {
 	}
 	obj.ID = int(id)
 	fmt.Println(obj.ID)
-	u, err := ctl.client.CoolroomType.
+	ct, err := ctl.client.CoolroomType.
 		UpdateOneID(int(id)).
 		SetCoolroomtypeName(obj.CoolroomtypeName).
 		Save(context.Background())
@@ -199,17 +199,17 @@ func (ctl *CoolroomTypeController) UpdateCoolroomType(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, u)
+	c.JSON(200, ct)
 }
 
 // NewCoolroomTypeController creates and registers handles for the coolroomtype controller
 func NewCoolroomTypeController(router gin.IRouter, client *ent.Client) *CoolroomTypeController {
-	uc := &CoolroomTypeController{
+	ctc := &CoolroomTypeController{
 		client: client,
 		router: router,
 	}
-	uc.register()
-	return uc
+	ctc.register()
+	return ctc
 }
 
 // InitCoolroomTypeController registers routes to the main engine

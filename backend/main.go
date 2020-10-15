@@ -39,9 +39,8 @@ type Coolrooms struct {
 }
 
 type Coolroom struct {
-	COOLROOMNAME     string
-	COOLROOMCAPACITY int
-	COOLROOMTYPEID   int
+	COOLROOMNAME   string
+	COOLROOMTYPEID int
 }
 
 type CoolroomTypes struct {
@@ -167,9 +166,9 @@ func main() {
 	// Set Coolrooms Data
 	coolrooms := Coolrooms{
 		Coolroom: []Coolroom{
-			Coolroom{"001", 50, 1},
-			Coolroom{"002", 50, 1},
-			Coolroom{"003", 50, 2},
+			Coolroom{"001", 1},
+			Coolroom{"002", 1},
+			Coolroom{"003", 2},
 		},
 	}
 
@@ -188,7 +187,6 @@ func main() {
 		client.Coolroom.
 			Create().
 			SetCoolroomName(cr.COOLROOMNAME).
-			SetCoolroomCapacity(cr.COOLROOMCAPACITY).
 			SetCoolroomtype(ct).
 			Save(context.Background())
 	}

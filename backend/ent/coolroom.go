@@ -18,8 +18,6 @@ type Coolroom struct {
 	ID int `json:"id,omitempty"`
 	// CoolroomName holds the value of the "coolroom_name" field.
 	CoolroomName string `json:"coolroom_name,omitempty"`
-	// CoolroomCapacity holds the value of the "coolroom_capacity" field.
-	CoolroomCapacity int `json:"coolroom_capacity,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the CoolroomQuery when eager-loading is set.
 	Edges           CoolroomEdges `json:"edges"`
@@ -65,7 +63,6 @@ func (*Coolroom) scanValues() []interface{} {
 	return []interface{}{
 		&sql.NullInt64{},  // id
 		&sql.NullString{}, // coolroom_name
-		&sql.NullInt64{},  // coolroom_capacity
 	}
 }
 
@@ -93,12 +90,7 @@ func (c *Coolroom) assignValues(values ...interface{}) error {
 	} else if value.Valid {
 		c.CoolroomName = value.String
 	}
-	if value, ok := values[1].(*sql.NullInt64); !ok {
-		return fmt.Errorf("unexpected type %T for field coolroom_capacity", values[1])
-	} else if value.Valid {
-		c.CoolroomCapacity = int(value.Int64)
-	}
-	values = values[2:]
+	values = values[1:]
 	if len(values) == len(coolroom.ForeignKeys) {
 		if value, ok := values[0].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field coolroomtype_id", value)
@@ -145,8 +137,6 @@ func (c *Coolroom) String() string {
 	builder.WriteString(fmt.Sprintf("id=%v", c.ID))
 	builder.WriteString(", coolroom_name=")
 	builder.WriteString(c.CoolroomName)
-	builder.WriteString(", coolroom_capacity=")
-	builder.WriteString(fmt.Sprintf("%v", c.CoolroomCapacity))
 	builder.WriteByte(')')
 	return builder.String()
 }

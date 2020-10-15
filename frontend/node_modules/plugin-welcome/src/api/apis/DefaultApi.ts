@@ -15,6 +15,9 @@
 
 import * as runtime from '../runtime';
 import {
+    ControllersCoolroom,
+    ControllersCoolroomFromJSON,
+    ControllersCoolroomToJSON,
     ControllersDeceasedReceive,
     ControllersDeceasedReceiveFromJSON,
     ControllersDeceasedReceiveToJSON,
@@ -39,7 +42,7 @@ import {
 } from '../models';
 
 export interface CreateCoolroomRequest {
-    coolroom: EntCoolroom;
+    coolroom: ControllersCoolroom;
 }
 
 export interface CreateCoolroomtypeRequest {
@@ -107,6 +110,12 @@ export interface GetUserRequest {
 }
 
 export interface ListCoolroomRequest {
+    limit?: number;
+    offset?: number;
+}
+
+export interface ListCoolroomByCoolroomtypeRequest {
+    typeid?: number;
     limit?: number;
     offset?: number;
 }
@@ -186,7 +195,7 @@ export class DefaultApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: EntCoolroomToJSON(requestParameters.coolroom),
+            body: ControllersCoolroomToJSON(requestParameters.coolroom),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => EntCoolroomFromJSON(jsonValue));
@@ -761,6 +770,46 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async listCoolroom(requestParameters: ListCoolroomRequest): Promise<Array<EntCoolroom>> {
         const response = await this.listCoolroomRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * list coolroom entities by coolroomtype
+     * List coolroom entities by coolroomtype
+     */
+    async listCoolroomByCoolroomtypeRaw(requestParameters: ListCoolroomByCoolroomtypeRequest): Promise<runtime.ApiResponse<Array<EntCoolroom>>> {
+        const queryParameters: runtime.HTTPQuery = {};
+
+        if (requestParameters.typeid !== undefined) {
+            queryParameters['typeid'] = requestParameters.typeid;
+        }
+
+        if (requestParameters.limit !== undefined) {
+            queryParameters['limit'] = requestParameters.limit;
+        }
+
+        if (requestParameters.offset !== undefined) {
+            queryParameters['offset'] = requestParameters.offset;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/coolroomswithcoolroomtype`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntCoolroomFromJSON));
+    }
+
+    /**
+     * list coolroom entities by coolroomtype
+     * List coolroom entities by coolroomtype
+     */
+    async listCoolroomByCoolroomtype(requestParameters: ListCoolroomByCoolroomtypeRequest): Promise<Array<EntCoolroom>> {
+        const response = await this.listCoolroomByCoolroomtypeRaw(requestParameters);
         return await response.value();
     }
 

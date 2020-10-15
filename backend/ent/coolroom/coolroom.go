@@ -9,8 +9,6 @@ const (
 	FieldID = "id"
 	// FieldCoolroomName holds the string denoting the coolroom_name field in the database.
 	FieldCoolroomName = "coolroom_name"
-	// FieldCoolroomCapacity holds the string denoting the coolroom_capacity field in the database.
-	FieldCoolroomCapacity = "coolroom_capacity"
 
 	// EdgeDeceasedreceives holds the string denoting the deceasedreceives edge name in mutations.
 	EdgeDeceasedreceives = "deceasedreceives"
@@ -39,7 +37,6 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldCoolroomName,
-	FieldCoolroomCapacity,
 }
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the Coolroom type.
@@ -50,6 +47,4 @@ var ForeignKeys = []string{
 var (
 	// CoolroomNameValidator is a validator for the "coolroom_name" field. It is called by the builders before save.
 	CoolroomNameValidator func(string) error
-	// CoolroomCapacityValidator is a validator for the "coolroom_capacity" field. It is called by the builders before save.
-	CoolroomCapacityValidator func(int) error
 )

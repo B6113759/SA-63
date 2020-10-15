@@ -44,7 +44,7 @@ export function EntUserEdgesFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
         
-        'deceasedreceives': !exists(json, 'Deceasedreceives') ? undefined : ((json['Deceasedreceives'] as Array<any>).map(EntDeceasedReceiveFromJSON)),
+        'deceasedreceives': !exists(json, 'deceasedreceives') ? undefined : ((json['deceasedreceives'] as Array<any>).map(EntDeceasedReceiveFromJSON)),
     };
 }
 

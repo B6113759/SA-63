@@ -1,5 +1,12 @@
 basePath: /api/v1
 definitions:
+  controllers.Coolroom:
+    properties:
+      coolroomname:
+        type: string
+      coomroomtypeid:
+        type: integer
+    type: object
   controllers.DeceasedReceive:
     properties:
       coolroomID:
@@ -15,9 +22,6 @@ definitions:
     type: object
   ent.Coolroom:
     properties:
-      coolroom_capacity:
-        description: CoolroomCapacity holds the value of the "coolroom_capacity" field.
-        type: integer
       coolroom_name:
         description: CoolroomName holds the value of the "coolroom_name" field.
         type: string
@@ -233,7 +237,7 @@ paths:
         name: coolroom
         required: true
         schema:
-          $ref: '#/definitions/ent.Coolroom'
+          $ref: '#/definitions/controllers.Coolroom'
       produces:
       - application/json
       responses:
@@ -342,6 +346,41 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Update a coolroom entity by ID
+  /coolroomswithcoolroomtype:
+    get:
+      description: list coolroom entities by coolroomtype
+      operationId: list-coolroom-by-coolroomtype
+      parameters:
+      - description: Typeid
+        in: query
+        name: typeid
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Coolroom'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List coolroom entities by coolroomtype
   /coolroomtypes:
     get:
       description: list coolroomtype entities

@@ -98,13 +98,6 @@ func CoolroomName(v string) predicate.Coolroom {
 	})
 }
 
-// CoolroomCapacity applies equality check predicate on the "coolroom_capacity" field. It's identical to CoolroomCapacityEQ.
-func CoolroomCapacity(v int) predicate.Coolroom {
-	return predicate.Coolroom(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldCoolroomCapacity), v))
-	})
-}
-
 // CoolroomNameEQ applies the EQ predicate on the "coolroom_name" field.
 func CoolroomNameEQ(v string) predicate.Coolroom {
 	return predicate.Coolroom(func(s *sql.Selector) {
@@ -213,82 +206,6 @@ func CoolroomNameEqualFold(v string) predicate.Coolroom {
 func CoolroomNameContainsFold(v string) predicate.Coolroom {
 	return predicate.Coolroom(func(s *sql.Selector) {
 		s.Where(sql.ContainsFold(s.C(FieldCoolroomName), v))
-	})
-}
-
-// CoolroomCapacityEQ applies the EQ predicate on the "coolroom_capacity" field.
-func CoolroomCapacityEQ(v int) predicate.Coolroom {
-	return predicate.Coolroom(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldCoolroomCapacity), v))
-	})
-}
-
-// CoolroomCapacityNEQ applies the NEQ predicate on the "coolroom_capacity" field.
-func CoolroomCapacityNEQ(v int) predicate.Coolroom {
-	return predicate.Coolroom(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldCoolroomCapacity), v))
-	})
-}
-
-// CoolroomCapacityIn applies the In predicate on the "coolroom_capacity" field.
-func CoolroomCapacityIn(vs ...int) predicate.Coolroom {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.Coolroom(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.In(s.C(FieldCoolroomCapacity), v...))
-	})
-}
-
-// CoolroomCapacityNotIn applies the NotIn predicate on the "coolroom_capacity" field.
-func CoolroomCapacityNotIn(vs ...int) predicate.Coolroom {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.Coolroom(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.NotIn(s.C(FieldCoolroomCapacity), v...))
-	})
-}
-
-// CoolroomCapacityGT applies the GT predicate on the "coolroom_capacity" field.
-func CoolroomCapacityGT(v int) predicate.Coolroom {
-	return predicate.Coolroom(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldCoolroomCapacity), v))
-	})
-}
-
-// CoolroomCapacityGTE applies the GTE predicate on the "coolroom_capacity" field.
-func CoolroomCapacityGTE(v int) predicate.Coolroom {
-	return predicate.Coolroom(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldCoolroomCapacity), v))
-	})
-}
-
-// CoolroomCapacityLT applies the LT predicate on the "coolroom_capacity" field.
-func CoolroomCapacityLT(v int) predicate.Coolroom {
-	return predicate.Coolroom(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldCoolroomCapacity), v))
-	})
-}
-
-// CoolroomCapacityLTE applies the LTE predicate on the "coolroom_capacity" field.
-func CoolroomCapacityLTE(v int) predicate.Coolroom {
-	return predicate.Coolroom(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldCoolroomCapacity), v))
 	})
 }
 

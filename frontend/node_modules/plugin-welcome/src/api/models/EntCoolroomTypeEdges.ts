@@ -44,7 +44,7 @@ export function EntCoolroomTypeEdgesFromJSONTyped(json: any, ignoreDiscriminator
     }
     return {
         
-        'coolrooms': !exists(json, 'Coolrooms') ? undefined : ((json['Coolrooms'] as Array<any>).map(EntCoolroomFromJSON)),
+        'coolrooms': !exists(json, 'coolrooms') ? undefined : ((json['coolrooms'] as Array<any>).map(EntCoolroomFromJSON)),
     };
 }
 

@@ -1,3 +1,4 @@
+export * from './ControllersCoolroom';
 export * from './ControllersDeceasedReceive';
 export * from './EntCoolroom';
 export * from './EntCoolroomEdges';

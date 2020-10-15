@@ -21,10 +21,6 @@ func init() {
 	coolroomDescCoolroomName := coolroomFields[0].Descriptor()
 	// coolroom.CoolroomNameValidator is a validator for the "coolroom_name" field. It is called by the builders before save.
 	coolroom.CoolroomNameValidator = coolroomDescCoolroomName.Validators[0].(func(string) error)
-	// coolroomDescCoolroomCapacity is the schema descriptor for coolroom_capacity field.
-	coolroomDescCoolroomCapacity := coolroomFields[1].Descriptor()
-	// coolroom.CoolroomCapacityValidator is a validator for the "coolroom_capacity" field. It is called by the builders before save.
-	coolroom.CoolroomCapacityValidator = coolroomDescCoolroomCapacity.Validators[0].(func(int) error)
 	coolroomtypeFields := schema.CoolroomType{}.Fields()
 	_ = coolroomtypeFields
 	// coolroomtypeDescCoolroomtypeName is the schema descriptor for coolroomtype_name field.

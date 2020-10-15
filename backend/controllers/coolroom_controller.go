@@ -19,9 +19,8 @@ type CoolroomController struct {
 
 // Coolroom defines the struct for the coolroom
 type Coolroom struct {
-	COOLROOMNAME     string
-	COOLROOMCAPACITY int
-	COOMROOMTYPEID   int
+	COOLROOMNAME   string
+	COOMROOMTYPEID int
 }
 
 // CreateCoolroom handles POST requests for adding coolroom entities
@@ -30,7 +29,7 @@ type Coolroom struct {
 // @ID create-coolroom
 // @Accept   json
 // @Produce  json
-// @Param coolroom body ent.Coolroom true "Coolroom entity"
+// @Param coolroom body Coolroom true "Coolroom entity"
 // @Success 200 {object} ent.Coolroom
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
@@ -46,7 +45,6 @@ func (ctl *CoolroomController) CreateCoolroom(c *gin.Context) {
 
 	cr, err := ctl.client.Coolroom.
 		Create().
-		SetCoolroomCapacity(obj.COOLROOMCAPACITY).
 		SetCoolroomName(obj.COOLROOMNAME).
 		Save(context.Background())
 	if err != nil {
@@ -149,6 +147,61 @@ func (ctl *CoolroomController) ListCoolroom(c *gin.Context) {
 	c.JSON(200, coolrooms)
 }
 
+// ListCoolroomByCoolroomType handles request to get a list of coolroom entities by coolroomtype
+// @Summary List coolroom entities by coolroomtype
+// @Description list coolroom entities by coolroomtype
+// @ID list-coolroom-by-coolroomtype
+// @Produce json
+// @Param typeid  query int false "Typeid"
+// @Param limit  query int false "Limit"
+// @Param offset query int false "Offset"
+// @Success 200 {array} ent.Coolroom
+// @Failure 400 {object} gin.H
+// @Failure 500 {object} gin.H
+// @Router /coolroomswithcoolroomtype [get]
+func (ctl *CoolroomController) ListCoolroomByCoolroomType(c *gin.Context) {
+	limitQuery := c.Query("limit")
+	limit := 10
+	if limitQuery != "" {
+		limit64, err := strconv.ParseInt(limitQuery, 10, 64)
+		if err == nil {
+			limit = int(limit64)
+		}
+	}
+
+	offsetQuery := c.Query("offset")
+	offset := 0
+	if offsetQuery != "" {
+		offset64, err := strconv.ParseInt(offsetQuery, 10, 64)
+		if err == nil {
+			offset = int(offset64)
+		}
+	}
+
+	typeidQuery := c.Query("typeid")
+	typeid := 0
+	if typeidQuery != "" {
+		typeid64, err := strconv.ParseInt(typeidQuery, 10, 64)
+		if err == nil {
+			typeid = int(typeid64)
+		}
+	}
+
+	coolrooms, err := ctl.client.Coolroom.
+		Query().
+		Where(coolroom.HasCoolroomtypeWith(coolroomtype.IDEQ(typeid))).
+		WithCoolroomtype().
+		Limit(limit).
+		Offset(offset).
+		All(context.Background())
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(200, coolrooms)
+}
+
 // DeleteCoolroom handles DELETE requests to delete a coolroom entity
 // @Summary Delete a coolroom entity by ID
 // @Description get coolroom by ID
@@ -225,7 +278,6 @@ func (ctl *CoolroomController) UpdateCoolroom(c *gin.Context) {
 	cr, err := ctl.client.Coolroom.
 		UpdateOneID(int(id)).
 		SetCoolroomName(obj.COOLROOMNAME).
-		SetCoolroomCapacity(obj.COOLROOMCAPACITY).
 		SetCoolroomtype(ct).
 		Save(context.Background())
 
@@ -241,23 +293,25 @@ func (ctl *CoolroomController) UpdateCoolroom(c *gin.Context) {
 
 // NewCoolroomController creates and registers handles for the coolroom controller
 func NewCoolroomController(router gin.IRouter, client *ent.Client) *CoolroomController {
-	uc := &CoolroomController{
+	cc := &CoolroomController{
 		client: client,
 		router: router,
 	}
-	uc.register()
-	return uc
+	cc.register()
+	return cc
 }
 
 // InitCoolroomController registers routes to the main engine
 func (ctl *CoolroomController) register() {
 	coolrooms := ctl.router.Group("/coolrooms")
+	coolroomswithcoolroomtype := ctl.router.Group("/coolroomswithcoolroomtype")
 
 	coolrooms.GET("", ctl.ListCoolroom)
 
 	// CRUD
 	coolrooms.POST("", ctl.CreateCoolroom)
 	coolrooms.GET(":id", ctl.GetCoolroom)
+	coolroomswithcoolroomtype.GET("", ctl.ListCoolroomByCoolroomType)
 	coolrooms.PUT(":id", ctl.UpdateCoolroom)
 	coolrooms.DELETE(":id", ctl.DeleteCoolroom)
 }

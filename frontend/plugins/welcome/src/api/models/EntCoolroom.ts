@@ -27,12 +27,6 @@ import {
  */
 export interface EntCoolroom {
     /**
-     * CoolroomCapacity holds the value of the "coolroom_capacity" field.
-     * @type {number}
-     * @memberof EntCoolroom
-     */
-    coolroomCapacity?: number;
-    /**
      * CoolroomName holds the value of the "coolroom_name" field.
      * @type {string}
      * @memberof EntCoolroom
@@ -62,7 +56,6 @@ export function EntCoolroomFromJSONTyped(json: any, ignoreDiscriminator: boolean
     }
     return {
         
-        'coolroomCapacity': !exists(json, 'coolroom_capacity') ? undefined : json['coolroom_capacity'],
         'coolroomName': !exists(json, 'coolroom_name') ? undefined : json['coolroom_name'],
         'edges': !exists(json, 'edges') ? undefined : EntCoolroomEdgesFromJSON(json['edges']),
         'id': !exists(json, 'id') ? undefined : json['id'],
@@ -78,7 +71,6 @@ export function EntCoolroomToJSON(value?: EntCoolroom | null): any {
     }
     return {
         
-        'coolroom_capacity': value.coolroomCapacity,
         'coolroom_name': value.coolroomName,
         'edges': EntCoolroomEdgesToJSON(value.edges),
         'id': value.id,

@@ -35,19 +35,6 @@ func (cu *CoolroomUpdate) SetCoolroomName(s string) *CoolroomUpdate {
 	return cu
 }
 
-// SetCoolroomCapacity sets the coolroom_capacity field.
-func (cu *CoolroomUpdate) SetCoolroomCapacity(i int) *CoolroomUpdate {
-	cu.mutation.ResetCoolroomCapacity()
-	cu.mutation.SetCoolroomCapacity(i)
-	return cu
-}
-
-// AddCoolroomCapacity adds i to coolroom_capacity.
-func (cu *CoolroomUpdate) AddCoolroomCapacity(i int) *CoolroomUpdate {
-	cu.mutation.AddCoolroomCapacity(i)
-	return cu
-}
-
 // AddDeceasedreceifeIDs adds the deceasedreceives edge to DeceasedReceive by ids.
 func (cu *CoolroomUpdate) AddDeceasedreceifeIDs(ids ...int) *CoolroomUpdate {
 	cu.mutation.AddDeceasedreceifeIDs(ids...)
@@ -113,11 +100,6 @@ func (cu *CoolroomUpdate) Save(ctx context.Context) (int, error) {
 	if v, ok := cu.mutation.CoolroomName(); ok {
 		if err := coolroom.CoolroomNameValidator(v); err != nil {
 			return 0, &ValidationError{Name: "coolroom_name", err: fmt.Errorf("ent: validator failed for field \"coolroom_name\": %w", err)}
-		}
-	}
-	if v, ok := cu.mutation.CoolroomCapacity(); ok {
-		if err := coolroom.CoolroomCapacityValidator(v); err != nil {
-			return 0, &ValidationError{Name: "coolroom_capacity", err: fmt.Errorf("ent: validator failed for field \"coolroom_capacity\": %w", err)}
 		}
 	}
 
@@ -193,20 +175,6 @@ func (cu *CoolroomUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Type:   field.TypeString,
 			Value:  value,
 			Column: coolroom.FieldCoolroomName,
-		})
-	}
-	if value, ok := cu.mutation.CoolroomCapacity(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: coolroom.FieldCoolroomCapacity,
-		})
-	}
-	if value, ok := cu.mutation.AddedCoolroomCapacity(); ok {
-		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: coolroom.FieldCoolroomCapacity,
 		})
 	}
 	if nodes := cu.mutation.RemovedDeceasedreceivesIDs(); len(nodes) > 0 {
@@ -306,19 +274,6 @@ func (cuo *CoolroomUpdateOne) SetCoolroomName(s string) *CoolroomUpdateOne {
 	return cuo
 }
 
-// SetCoolroomCapacity sets the coolroom_capacity field.
-func (cuo *CoolroomUpdateOne) SetCoolroomCapacity(i int) *CoolroomUpdateOne {
-	cuo.mutation.ResetCoolroomCapacity()
-	cuo.mutation.SetCoolroomCapacity(i)
-	return cuo
-}
-
-// AddCoolroomCapacity adds i to coolroom_capacity.
-func (cuo *CoolroomUpdateOne) AddCoolroomCapacity(i int) *CoolroomUpdateOne {
-	cuo.mutation.AddCoolroomCapacity(i)
-	return cuo
-}
-
 // AddDeceasedreceifeIDs adds the deceasedreceives edge to DeceasedReceive by ids.
 func (cuo *CoolroomUpdateOne) AddDeceasedreceifeIDs(ids ...int) *CoolroomUpdateOne {
 	cuo.mutation.AddDeceasedreceifeIDs(ids...)
@@ -384,11 +339,6 @@ func (cuo *CoolroomUpdateOne) Save(ctx context.Context) (*Coolroom, error) {
 	if v, ok := cuo.mutation.CoolroomName(); ok {
 		if err := coolroom.CoolroomNameValidator(v); err != nil {
 			return nil, &ValidationError{Name: "coolroom_name", err: fmt.Errorf("ent: validator failed for field \"coolroom_name\": %w", err)}
-		}
-	}
-	if v, ok := cuo.mutation.CoolroomCapacity(); ok {
-		if err := coolroom.CoolroomCapacityValidator(v); err != nil {
-			return nil, &ValidationError{Name: "coolroom_capacity", err: fmt.Errorf("ent: validator failed for field \"coolroom_capacity\": %w", err)}
 		}
 	}
 
@@ -462,20 +412,6 @@ func (cuo *CoolroomUpdateOne) sqlSave(ctx context.Context) (c *Coolroom, err err
 			Type:   field.TypeString,
 			Value:  value,
 			Column: coolroom.FieldCoolroomName,
-		})
-	}
-	if value, ok := cuo.mutation.CoolroomCapacity(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: coolroom.FieldCoolroomCapacity,
-		})
-	}
-	if value, ok := cuo.mutation.AddedCoolroomCapacity(); ok {
-		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: coolroom.FieldCoolroomCapacity,
 		})
 	}
 	if nodes := cuo.mutation.RemovedDeceasedreceivesIDs(); len(nodes) > 0 {

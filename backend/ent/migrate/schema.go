@@ -12,7 +12,6 @@ var (
 	CoolroomsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "coolroom_name", Type: field.TypeString},
-		{Name: "coolroom_capacity", Type: field.TypeInt},
 		{Name: "coolroomtype_id", Type: field.TypeInt, Nullable: true},
 	}
 	// CoolroomsTable holds the schema information for the "coolrooms" table.
@@ -23,7 +22,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:  "coolrooms_coolroom_types_coolrooms",
-				Columns: []*schema.Column{CoolroomsColumns[3]},
+				Columns: []*schema.Column{CoolroomsColumns[2]},
 
 				RefColumns: []*schema.Column{CoolroomTypesColumns[0]},
 				OnDelete:   schema.SetNull,

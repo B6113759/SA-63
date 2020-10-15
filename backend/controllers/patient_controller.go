@@ -36,7 +36,7 @@ func (ctl *PatientController) CreatePatient(c *gin.Context) {
 		return
 	}
 
-	u, err := ctl.client.Patient.
+	p, err := ctl.client.Patient.
 		Create().
 		SetPatientAge(obj.PatientAge).
 		SetPatientName(obj.PatientName).
@@ -48,7 +48,7 @@ func (ctl *PatientController) CreatePatient(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, u)
+	c.JSON(200, p)
 }
 
 // GetPatient handles GET requests to retrieve a patient entity
@@ -71,7 +71,7 @@ func (ctl *PatientController) GetPatient(c *gin.Context) {
 		return
 	}
 
-	u, err := ctl.client.Patient.
+	p, err := ctl.client.Patient.
 		Query().
 		Where(patient.IDEQ(int(id))).
 		Only(context.Background())
@@ -82,7 +82,7 @@ func (ctl *PatientController) GetPatient(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, u)
+	c.JSON(200, p)
 }
 
 // ListPatient handles request to get a list of patient entities

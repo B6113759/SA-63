@@ -36,7 +36,7 @@ func (ctl *RelativeController) CreateRelative(c *gin.Context) {
 		return
 	}
 
-	u, err := ctl.client.Relative.
+	r, err := ctl.client.Relative.
 		Create().
 		SetRelativeName(obj.RelativeName).
 		Save(context.Background())
@@ -47,7 +47,7 @@ func (ctl *RelativeController) CreateRelative(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, u)
+	c.JSON(200, r)
 }
 
 // GetRelative handles GET requests to retrieve a relative entity
@@ -70,7 +70,7 @@ func (ctl *RelativeController) GetRelative(c *gin.Context) {
 		return
 	}
 
-	u, err := ctl.client.Relative.
+	r, err := ctl.client.Relative.
 		Query().
 		Where(relative.IDEQ(int(id))).
 		Only(context.Background())
@@ -81,7 +81,7 @@ func (ctl *RelativeController) GetRelative(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, u)
+	c.JSON(200, r)
 }
 
 // ListRelative handles request to get a list of relative entities
@@ -190,7 +190,7 @@ func (ctl *RelativeController) UpdateRelative(c *gin.Context) {
 	}
 	obj.ID = int(id)
 	fmt.Println(obj.ID)
-	u, err := ctl.client.Relative.
+	r, err := ctl.client.Relative.
 		UpdateOneID(int(id)).
 		SetRelativeName(obj.RelativeName).
 		Save(context.Background())
@@ -199,17 +199,17 @@ func (ctl *RelativeController) UpdateRelative(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, u)
+	c.JSON(200, r)
 }
 
 // NewRelativeController creates and registers handles for the relative controller
 func NewRelativeController(router gin.IRouter, client *ent.Client) *RelativeController {
-	uc := &RelativeController{
+	rc := &RelativeController{
 		client: client,
 		router: router,
 	}
-	uc.register()
-	return uc
+	rc.register()
+	return rc
 }
 
 // InitRelativeController registers routes to the main engine
