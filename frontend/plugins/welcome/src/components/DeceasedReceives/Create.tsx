@@ -24,6 +24,7 @@ import { EntCoolroom } from '../../api/models/EntCoolroom';
 import { EntCoolroomType } from '../../api/models/EntCoolroomType';
 import { EntRelative } from '../../api/models/EntRelative';
 import { EntPatient } from '../../api/models/EntPatient';
+import { EntUser } from '../../api/models/EntUser';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,25 +45,18 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const initialUserState = {
-  dOCTORNAME: 'นายแพทย์กำลัง นอนพอดี',
-  dOCTOREMAIL: 'Gumlung@gmail.com',
-};
-
-const username = { givenuser: 'นายแพทย์กำลัง นอนพอดี' };
 
 export default function Create() {
   const classes = useStyles();
   const profile = { givenName: 'ยินดีต้อนรับสู่ ระบบผู้เสียชีวิต' };
   const api = new DefaultApi();
-
-  //const [deceased, setDeceased] = useState(String);
   const [status, setStatus] = useState(false);
   const [alert, setAlert] = useState(true);
   const [coolrooms, setCoolrooms] = useState<EntCoolroom[]>([]);
   const [coolroomtypes, setCoolroomTypes] = useState<EntCoolroomType[]>([]);
   const [relatives, setRelatives] = useState<EntRelative[]>([]);
   const [patients, setPatients] = useState<EntPatient[]>([]);
+  const [users, setUsers] = useState<EntUser[]>([]);
 
   const [loading, setLoading] = useState(true);
   const [deathtime, setDeathtime] = useState(String);
@@ -71,6 +65,7 @@ export default function Create() {
   const [coolroomtypeid, setCoolroomType] = useState(Number);
   const [relativeid, setRelative] = useState(Number);
   const [patientid, setPatient] = useState(Number);
+  const [userid, setUser] = useState(Number);
 
   useEffect(() => {
     const getCoolroomTypes = async () => {
@@ -94,8 +89,15 @@ export default function Create() {
     };
     getPatients();
 
+    const getUsers = async () => {
+      const res = await api.listUser({ limit: 10, offset: 0 });
+      setLoading(false);
+      setUsers(res);
+    };
+    getUsers();
+
   }, [loading]);
-  
+
 
   const DeathTimehandleChange = (event: any) => {
     setDeathtime(event.target.value as string);
@@ -107,7 +109,7 @@ export default function Create() {
 
   const CoolroomTypehandleChange = async (event: React.ChangeEvent<{ value: unknown }>) => {
     setCoolroomType(event.target.value as number);
-    const res = await api.listCoolroomByCoolroomtype({typeid:event.target.value as number, limit: 10, offset: 0 });
+    const res = await api.listCoolroomByCoolroomtype({ typeid: event.target.value as number, limit: 10, offset: 0 });
     setCoolrooms(res);
   };
 
@@ -119,12 +121,16 @@ export default function Create() {
     setPatient(event.target.value as number);
   };
 
+  const UserthandleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setUser(event.target.value as number);
+  };
+
   const CreateDeceasedReceive = async () => {
     const deceasedreceive = {
       patientID: patientid,
       coolroomID: coolroomid,
       relativeID: relativeid,
-      userID: 1,
+      userID: userid,
       deathtime: deathtime + ":00+07:00"
 
     };
@@ -150,14 +156,6 @@ export default function Create() {
       ></Header>
       <Content>
         <ContentHeader title="เพิ่มข้อมูลผู้เสียชีวิต">
-          <Typography align="left" style={{ marginRight: 16, color: "#00eeff" }}>
-            {username.givenuser}
-          </Typography>
-          <div>
-            <Button variant="contained" color="primary">
-              ออกจากระบบ
-         </Button>
-          </div>
           {status ? (
             <div>
               {alert ? (
@@ -174,23 +172,43 @@ export default function Create() {
         </ContentHeader>
         <div className={classes.root}>
           <form noValidate autoComplete="off">
-          <FormControl
+          <div>
+              <FormControl
                 className={classes.margin}
                 variant="outlined"
               >
-                <InputLabel id="patient-label">ชื่อ-สกุล ผู้เสียชีวิต</InputLabel>
+                <InputLabel id="user-label">แพทย์</InputLabel>
                 <Select
-                  labelId="patient-label"
-                  id="patient"
-                  value={patientid}
-                  onChange={PatienthandleChange}
+                  labelId="user-label"
+                  id="user"
+                  value={userid}
+                  onChange={UserthandleChange}
                   style={{ width: 400 }}
                 >
-                {patients.filter((filter:any) => filter.edges.deceasedreceives == null).map((item: EntPatient) => (
-                  <MenuItem value={item.id}>{item.patientName}</MenuItem>
-                ))}
+                  {users.map((item: EntUser) => (
+                    <MenuItem value={item.id}>{item.userName}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
+            </div>
+
+            <FormControl
+              className={classes.margin}
+              variant="outlined"
+            >
+              <InputLabel id="patient-label">ชื่อ-สกุล ผู้เสียชีวิต</InputLabel>
+              <Select
+                labelId="patient-label"
+                id="patient"
+                value={patientid}
+                onChange={PatienthandleChange}
+                style={{ width: 400 }}
+              >
+                {patients.filter((filter: any) => filter.edges.deceasedreceives == null).map((item: EntPatient) => (
+                  <MenuItem value={item.id}>{item.patientName}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
             <div>
               <FormControl
@@ -205,9 +223,9 @@ export default function Create() {
                   onChange={RelativehandleChange}
                   style={{ width: 400 }}
                 >
-                {relatives.map((item: any) => (
-                  <MenuItem value={item.id}>{item.relativeName}</MenuItem>
-                ))}
+                  {relatives.map((item: any) => (
+                    <MenuItem value={item.id}>{item.relativeName}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </div>
@@ -216,7 +234,7 @@ export default function Create() {
               className={classes.margin}
               variant="outlined"
             >
-              <InputLabel id="status-death">ประเภทศพผู้เสียชีวิต</InputLabel>
+              <InputLabel id="status-death">ประเภทห้องเย็น</InputLabel>
               <Select
                 labelId="status-death"
                 id="statusdeath"
@@ -244,11 +262,11 @@ export default function Create() {
                   style={{ width: 200 }}
                 >
                   {coolrooms.map(item => (
-                  <MenuItem value={item.id}>{item.coolroomName}</MenuItem>                 
-                ))}
+                    <MenuItem value={item.id}>{item.coolroomName}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
-            
+
               <FormControl
                 className={classes.margin}
                 variant="outlined"

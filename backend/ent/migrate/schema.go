@@ -48,7 +48,7 @@ var (
 		{Name: "coolroom_id", Type: field.TypeInt, Nullable: true},
 		{Name: "patient_id", Type: field.TypeInt, Unique: true, Nullable: true},
 		{Name: "relative_id", Type: field.TypeInt, Nullable: true},
-		{Name: "doctor_id", Type: field.TypeInt, Nullable: true},
+		{Name: "user_id", Type: field.TypeInt, Nullable: true},
 	}
 	// DeceasedReceivesTable holds the schema information for the "deceased_receives" table.
 	DeceasedReceivesTable = &schema.Table{

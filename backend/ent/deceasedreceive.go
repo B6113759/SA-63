@@ -28,7 +28,7 @@ type DeceasedReceive struct {
 	coolroom_id *int
 	patient_id  *int
 	relative_id *int
-	doctor_id   *int
+	user_id     *int
 }
 
 // DeceasedReceiveEdges holds the relations/edges for other nodes in the graph.
@@ -116,7 +116,7 @@ func (*DeceasedReceive) fkValues() []interface{} {
 		&sql.NullInt64{}, // coolroom_id
 		&sql.NullInt64{}, // patient_id
 		&sql.NullInt64{}, // relative_id
-		&sql.NullInt64{}, // doctor_id
+		&sql.NullInt64{}, // user_id
 	}
 }
 
@@ -158,10 +158,10 @@ func (dr *DeceasedReceive) assignValues(values ...interface{}) error {
 			*dr.relative_id = int(value.Int64)
 		}
 		if value, ok := values[3].(*sql.NullInt64); !ok {
-			return fmt.Errorf("unexpected type %T for edge-field doctor_id", value)
+			return fmt.Errorf("unexpected type %T for edge-field user_id", value)
 		} else if value.Valid {
-			dr.doctor_id = new(int)
-			*dr.doctor_id = int(value.Int64)
+			dr.user_id = new(int)
+			*dr.user_id = int(value.Int64)
 		}
 	}
 	return nil

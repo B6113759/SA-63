@@ -23,7 +23,7 @@ const (
 	// It exists in this package in order to avoid circular dependency with the "deceasedreceive" package.
 	DeceasedreceivesInverseTable = "deceased_receives"
 	// DeceasedreceivesColumn is the table column denoting the deceasedreceives relation/edge.
-	DeceasedreceivesColumn = "doctor_id"
+	DeceasedreceivesColumn = "user_id"
 )
 
 // Columns holds all SQL columns for user fields.

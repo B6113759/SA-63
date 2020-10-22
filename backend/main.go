@@ -166,9 +166,9 @@ func main() {
 	// Set Coolrooms Data
 	coolrooms := Coolrooms{
 		Coolroom: []Coolroom{
-			Coolroom{"001", 1},
-			Coolroom{"002", 1},
-			Coolroom{"003", 2},
+			Coolroom{"CR001", 1},
+			Coolroom{"CR002", 1},
+			Coolroom{"CR003", 2},
 		},
 	}
 

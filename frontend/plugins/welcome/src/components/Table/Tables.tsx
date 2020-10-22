@@ -59,10 +59,11 @@ export default function ComponentsTable() {
            <TableCell align="center">เลขที่</TableCell>
            <TableCell align="center">ชื่อ-สกุล</TableCell>
            <TableCell align="center">ชื่อ-สกุล ของญาติ</TableCell>
+           <TableCell align="center">แพทย์</TableCell>
            <TableCell align="center">หมายเลขห้องเก็บศพ</TableCell>
            <TableCell align="center">วัน/เดือน/ปี เวลา ที่เสียชีวิต</TableCell>
            <TableCell align="center">ประเภทของศพผู้เสียชีวิต</TableCell>
-           <TableCell align="center">จัดการข้อมูล</TableCell>
+           <TableCell align="center">จัดการผู้เสียชีวิต</TableCell>
          </TableRow>
        </TableHead>
        <TableBody>
@@ -71,6 +72,7 @@ export default function ComponentsTable() {
              <TableCell align="center">{item.id}</TableCell>
              <TableCell align="center">{item.edges.patient.patientName}</TableCell>
              <TableCell align="center">{item.edges.relative.relativeName}</TableCell>
+             <TableCell align="center">{item.edges.doctor.userName}</TableCell>
              <TableCell align="center">{item.edges.coolroom.coolroomName}</TableCell>
              <TableCell align="center">{moment(item.deathTime).format('DD/MM/YYYY HH.mm น.')}</TableCell>
              {coolrooms.filter((filter:EntCoolroom) => filter.id === item.edges.coolroom.id).map((item2:any) => (
@@ -85,7 +87,7 @@ export default function ComponentsTable() {
                  variant="contained"
                  color="secondary"
                >
-                 ลบข้อมูล
+                 ลบผู้เสียชีวิต
                </Button>
              </TableCell>
            </TableRow>

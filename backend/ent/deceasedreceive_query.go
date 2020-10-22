@@ -465,7 +465,7 @@ func (drq *DeceasedReceiveQuery) sqlAll(ctx context.Context) ([]*DeceasedReceive
 		ids := make([]int, 0, len(nodes))
 		nodeids := make(map[int][]*DeceasedReceive)
 		for i := range nodes {
-			if fk := nodes[i].doctor_id; fk != nil {
+			if fk := nodes[i].user_id; fk != nil {
 				ids = append(ids, *fk)
 				nodeids[*fk] = append(nodeids[*fk], nodes[i])
 			}
@@ -478,7 +478,7 @@ func (drq *DeceasedReceiveQuery) sqlAll(ctx context.Context) ([]*DeceasedReceive
 		for _, n := range neighbors {
 			nodes, ok := nodeids[n.ID]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "doctor_id" returned %v`, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "user_id" returned %v`, n.ID)
 			}
 			for i := range nodes {
 				nodes[i].Edges.Doctor = n

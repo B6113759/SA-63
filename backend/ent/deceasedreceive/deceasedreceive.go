@@ -27,7 +27,7 @@ const (
 	// It exists in this package in order to avoid circular dependency with the "user" package.
 	DoctorInverseTable = "users"
 	// DoctorColumn is the table column denoting the doctor relation/edge.
-	DoctorColumn = "doctor_id"
+	DoctorColumn = "user_id"
 	// RelativeTable is the table the holds the relative relation/edge.
 	RelativeTable = "deceased_receives"
 	// RelativeInverseTable is the table name for the Relative entity.
@@ -62,5 +62,5 @@ var ForeignKeys = []string{
 	"coolroom_id",
 	"patient_id",
 	"relative_id",
-	"doctor_id",
+	"user_id",
 }

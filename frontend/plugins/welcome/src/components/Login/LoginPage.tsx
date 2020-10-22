@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   Content,
   Header,
@@ -8,17 +8,17 @@ import {
   ContentHeader,
 } from '@backstage/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import { Alert } from '@material-ui/lab';
 import { DefaultApi } from '../../api/apis';
 
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
+import WelcomePage from '../WelcomePage';
+
 
 import { EntUser } from '../../api/models/EntUser';
 
@@ -41,20 +41,17 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const initialUserState = {
-  dOCTORNAME: 'นายแพทย์กำลัง นอนพอดี',
-  dOCTOREMAIL: 'Gumlung@gmail.com',
-};
 
 
-export default function Create() {
+export default function LoginPage() {
   const classes = useStyles();
   const profile = { givenName: 'ยินดีต้อนรับสู่ ระบบผู้เสียชีวิต' };
   const api = new DefaultApi();
 
   //const [deceased, setDeceased] = useState(String);
   const [status, setStatus] = useState(false);
-  const [alert, setAlert] = useState(true);
+  const [LoginStatus, setLoginStatus] = useState(Boolean);
+  const [alert, setAlert] = useState(Boolean);
   const [users, setUsers] = useState<EntUser[]>([]);
   const [username, setUsername] = useState(String);
 
@@ -62,7 +59,6 @@ export default function Create() {
 
   const [useremail, setUserEmail] = useState(String);
   const [userid, setUserID] = useState(Number);
-  const [loginstate, setLoginState] = useState(false);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -75,29 +71,20 @@ export default function Create() {
 
 
   const UserEmailthandleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setUserEmail(event.target.value as string);
+    setUserID(event.target.value as number);
   };
 
   const LoginEmailChecker = async () => {
     setStatus(true);
-    users.map((item:EntUser) =>{
-      if (item.useremail === useremail){
-        setUserID(item.id as number);
-        setLoginState(true);
-        setUsername(item.userName as string);
-      }
-      else {
-        setLoginState(false);
-      }
-    }
-    )
-    if (loginstate == true) {
-      setAlert(false);
-    } else {
-      setAlert(true);
-    }
+    const item = await api.getUser({ id: 1})
+    setUsername(item.userName as string);
+    setUserEmail(item.useremail as string);
+    setAlert(true);
+    setLoginStatus(true);
+
     const timer = setTimeout(() => {
       setStatus(false);
+      setAlert(false);
     }, 1000);
   };
 
@@ -112,20 +99,15 @@ export default function Create() {
           <Typography align="left" style={{ marginRight: 16, color: "#00eeff" }}>
             {username}
           </Typography>
-          <div>
-            <Button variant="contained" color="primary">
-              ออกจากระบบ
-         </Button>
-          </div>
           {status ? (
             <div>
               {alert ? (
                 <Alert severity="success">
-                  This is a success alert — check it out!
+                  เข้าสู่ระบบสำเร็จ
                 </Alert>
               ) : (
                   <Alert severity="warning" style={{ marginTop: 20 }}>
-                    This is a warning alert — check it out!
+                    อีเมล์ไม่ถูกต้อง
                   </Alert>
                 )}
             </div>
@@ -133,27 +115,30 @@ export default function Create() {
         </ContentHeader>
         <div className={classes.root}>
           <form noValidate autoComplete="off">
-            <FormControl
-              className={classes.margin}
-              variant="outlined"
-            >
-              <TextField
-                id="name"
-                label="อีเมล์"
+          <FormControl
+                className={classes.margin}
                 variant="outlined"
-                type="string"
-                size="medium"
-                value={useremail}
-                onChange={UserEmailthandleChange}
-                style={{ width: 400 }}
-              />
-            </FormControl>
+              >
+                <InputLabel id="user-label">อีเมล์</InputLabel>
+                <Select
+                  labelId="user-label"
+                  id="user"
+                  value={userid}
+                  onChange={UserEmailthandleChange}
+                  style={{ width: 400 }}
+                >
+                  {users.map((item: EntUser) => (
+                    <MenuItem value={item.id}>{item.useremail}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
 
 
             <div className={classes.margin}>
+            <Link to="/mainpage">
               <Button
                 style={{ width: 400, backgroundColor: "#34eb77" }}
-                color="primary" 
+                color="primary"
                 onClick={() => {
                   LoginEmailChecker();
                 }}
@@ -161,6 +146,7 @@ export default function Create() {
               >
                 ล็อคอิน
              </Button>
+             </Link>
             </div>
           </form>
         </div>
