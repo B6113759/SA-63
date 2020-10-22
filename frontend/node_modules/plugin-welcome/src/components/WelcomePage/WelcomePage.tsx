@@ -27,9 +27,6 @@ const WelcomePage: FC<{}> = () => {
      ></Header>
      <Content>
        <ContentHeader title="ตารางข้อมูลผู้เสียชีวิต">
-          <Typography align="left" style={{ marginRight: 16,color: "#00eeff" }}>
-          {username.givenuser}
-          </Typography>
          <div>
          <Button variant="contained" color="primary">
              ออกจากระบบ
